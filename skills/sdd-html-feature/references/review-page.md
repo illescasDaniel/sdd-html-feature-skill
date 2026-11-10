@@ -4,12 +4,14 @@ One UTF-8 HTML file per feature, `sdd/<feature>.html` by default (use the projec
 
 ## Tabs and the summary-first format
 
-Tabs: **Design, Spec, Architecture, Build, QA, Grade, Approvals**. Add tabs as phases are reached; keep earlier ones. Each tab status chip says approved, awaiting approval, not started, done, n/a, skipped or unavailable (the Approvals chip counts gates, for example "0 of 3 gates") (with the reason in the panel). The header badge states the current gate.
+Tabs: **Design, Spec, Architecture, Build, Verify, Approvals**. All exist from the start and are never removed; a phase that does not apply is `n/a` with the reason in its glance. Each status chip uses only: approved, awaiting approval, not started, in progress, blocked (a requirement finding waiting on the user), done, n/a, skipped, unavailable (Verify also PASS or NEEDS WORK; Approvals counts gates, for example "0 of 3 gates"). The header badge states the current gate. Pages from older versions have QA and Grade tabs instead of Verify; the script still renders them (`verify` returns both) and `--check` only warns.
 
 Every tab except Approvals (a plain record table) has the same shape:
 
-1. **At a glance** (first): a screenful with everything the reader must decide or know: what changes, the failure paths, decisions to settle, what is not verified, and the exact chat reply needed for the next gate.
-2. **Detailed report** (`<h2 class="rep">`): all the detail, containing everything in the glance and more, never different content. Spec tab: full Given/When/Then for every scenario (in `<details class="gwt">`), the contracts, and the traceability table.
+1. **At a glance** (first): a screenful with everything the reader must decide or know: what changes, the failure paths, decisions to settle, what is not verified. It ends in exactly one `<p class="note gate">` holding the exact chat reply for the next gate (or the handoff line). After approval its text becomes "<Gate> approved <date> (see Approvals)." so the line can always be found.
+2. **Detailed report** (`<h2 class="rep">`): all the detail, containing everything in the glance and more, never different content. Spec tab: full Given/When/Then for every scenario (in `<details class="gwt">`), the contracts, and the traceability table. Every detailed report ends with a **Checks run on this page** section: mechanical checks, browser checks that ran, and limitations. Chat never carries content that is not in the page.
+
+**Verify tab.** Glance = the Verification report: grader verdict line and QA result line pasted verbatim, scorecard (build gate, QA scenarios, each grade criterion), findings table with `Q#`/`G#` IDs, label, severity and status, "Fixed after grading, not re-graded", "Not verified", budget used, and a handoff `.gate`. Detail: QA scenario runs, then the grader's criteria, scenario map and findings, pasted from the agents' reports. Placeholder text carries `class="tpl"`; `--check` fails if any remains in a done or approved tab.
 
 Tabs use ARIA `tablist`, `tab` and `tabpanel`, arrow keys, Home and End, and `#hash` links. Without JavaScript all panels are visible. Print shows every panel; `details` are opened by the `beforeprint` script and by a `::details-content` print rule where the browser supports it.
 
@@ -38,7 +40,7 @@ Reviewer notes say "Review only"; mock content says "Simulation". No "Approve" b
 
 ## Inline render in chat
 
-At the end of each phase, when the host can render interactive HTML inline, show a compact version: the **At a glance** content open, and the detailed report inside one collapsible `<details class="big">`. Generate it from the page, do not retype it (drift): `python3 <skill-dir>/scripts/inline_view.py sdd/<feature>.html <tab>`, where `<skill-dir>` is the skill's folder, and pass that HTML straight to the host's renderer (do not save it in the project). Mark elements to omit from the inline copy with class `skip-inline` on a `<p>` or `<nav>`. Each panel must open exactly as `<div role="tabpanel" id="p-<tab>" …>` (that attribute order) and may not contain `<div` or `</main>` inside a comment; the script refuses to emit a panel whose `<div>` tags do not balance. The inline version uses transparent body and the host's theme variables with fallbacks. If the host cannot render inline, give the file path and say how to open it. Never claim an inline preview that did not happen.
+At each render point (the three gates, the handoff, unplanned stops) the chat report is generated from the page, never retyped: `python3 <skill-dir>/scripts/inline_view.py sdd/<feature>.html <tab>` (design, spec, arch, verify, appr), where `<skill-dir>` is the skill's folder. The HTML output starts with one line holding the header badge and the tab's status chip, then the **At a glance** content open, the detailed report in one `<details class="big">`, and a `Source: page#p-tab` footer. Pass it straight to the host's renderer (do not save it in the project); the script warns on stderr above 12 KB, because the renderer takes the HTML as text and a long copy can drift, and then `--format md` is used. A host that cannot render HTML gets `--format md`: the glance as Markdown, the report anchor, and the `.gate` line verbatim last. One of the two is always used; add nothing to it. Mark elements to omit from the inline copy with class `skip-inline` on a `<p>` or `<nav>`. Each panel must open exactly as `<div role="tabpanel" id="p-<tab>" …>` (that attribute order) and may not contain `<div` or `</main>` inside a comment; the script refuses to emit a panel whose `<div>` tags do not balance. The inline version uses transparent body and the host's theme variables with fallbacks. Never claim an inline preview that did not happen.
 
 ## Approvals tab
 
@@ -46,10 +48,11 @@ Record only approvals actually received in chat: gate, date, approved content (a
 
 ## Before requesting approval
 
+0. Run `python3 <skill-dir>/scripts/inline_view.py --check sdd/<feature>.html` and fix every error (tabs, glance, one `.gate`, balanced panels, status vocabulary, no placeholders in finished tabs, no remote assets).
 1. Open the saved file with networking disabled when browser tools exist. Exercise tabs, selectors, disclosures, links, keyboard use, a narrow viewport, dark mode and print; check the console.
 2. Check every relative link. Check each diagram has a text equivalent. Check every failure ID appears in the failure inventory and in the traceability table.
 3. Confirm there are no remote assets, live calls, secrets or untrusted HTML.
 4. Without browser tooling, inspect statically and say which visual and interaction checks did not run.
-5. Link the saved file in the conversation.
+5. Write the results of steps 0 to 4, and every limitation, into the tab's "Checks run on this page" section. The render shows them and prints the link; do not repeat them in chat.
 
-No validator can establish design completeness. Report mechanical checks separately from human review and actual browser checks.
+No validator can establish design completeness. Report mechanical checks separately from human review and actual browser checks, in that section.

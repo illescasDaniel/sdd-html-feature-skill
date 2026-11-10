@@ -6,7 +6,7 @@ One file per feature, `sdd/<feature>.html`, is the single source of truth, with 
 
 ![The Design tab of the example template: summary, status chips and a coloured sequence diagram with a failure frame](docs/template-design.png)
 
-![The QA tab of the same template, with the scenario table](docs/template-qa.png)
+![The Verify tab of the same template: verdict, scorecard and findings](docs/template-verify.png)
 
 *Screenshots of `skills/sdd-html-feature/templates/feature.html` in light mode (the page also follows the system dark theme).*
 
@@ -16,11 +16,10 @@ One file per feature, `sdd/<feature>.html`, is the single source of truth, with 
 | Spec | Contracts, stable scenarios with full Given/When/Then, traceability |
 | Architecture | Dependency diagram, interface diffs, phased plan |
 | Build | Tests first, implementation, project quality gate, what is not verified |
-| QA | A QA tester runs the built feature in isolation: scenario, steps, expected vs observed, result, evidence |
-| Grade | A read-only judge's scorecard, findings and their resolution |
+| Verify | One combined report: grader verdict and QA result (pasted verbatim), scorecard, findings `Q#`/`G#` with resolution, not verified, handoff; the detail holds the QA scenario runs and the grader's criteria |
 | Approvals | Gate approvals actually received in chat |
 
-Agents: `agents/qa-tester.md` (runs the thing, never edits source) and `agents/code-grader.md` (reads and judges, may run only the documented quality gate). Order: implement, QA, fix, grade, fix. Both run automatically after the build (the user is told once, at the architecture gate, and can opt out with `no QA` or `no grade`); one shared budget of two fix rounds and at most three subagent runs. `scripts/inline_view.py` derives a compact inline-chat version of any tab from the page.
+Agents: `agents/qa-tester.md` (runs the thing, never edits source) and `agents/code-grader.md` (reads and judges, may run only the documented quality gate). Order: implement, QA, fix, grade, fix. Both run automatically after the build (the user is told once, at the architecture gate, and can opt out with `no QA` or `no grade`); one shared budget of two fix rounds and at most three subagent runs. Every tab exists from the start and ends its glance with one `.gate` line. `scripts/inline_view.py PAGE TAB` extracts the chat report from the page (HTML, or `--format md` when the host cannot render HTML) and `--check PAGE` lints the page structure; chat never carries text that is not in the page.
 
 Compared with [`sdd-feature`](https://github.com/illescasDaniel/sdd-feature-skill) (the Mermaid-based predecessor), this skill makes the offline HTML review the visual entry point for UI, system and CLI work. It removes CDN rendering dependencies, brings proposed decisions into design review, records revision-specific approval, and checks contracts at the layer where their behavior occurs. Existing project-mandated Markdown designs remain authoritative where required.
 

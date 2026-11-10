@@ -18,6 +18,7 @@ h2{line-height:1.25;color:color-mix(in srgb,var(--sc,var(--c-teal)) 60%,var(--in
 .badge{display:inline-block;border:1px solid var(--c-teal);background:color-mix(in srgb,var(--c-teal) 18%,transparent);color:color-mix(in srgb,var(--c-teal) 35%,var(--ink));border-radius:2rem;padding:.2rem .7rem;font-size:.9rem;font-weight:650}
 .note{border-left:4px solid var(--c-teal);padding:.7rem 1rem;background:color-mix(in srgb,var(--c-teal) 10%,transparent)}
 section{background:var(--paper);border:1px solid var(--line);border-left:5px solid var(--sc,var(--c-teal));border-radius:.75rem;padding:clamp(1rem,3vw,2rem);margin-bottom:1.2rem;scroll-margin-top:1rem}
+.gate{border-left-color:var(--c-amb)}.src,.hdr{font-size:.85rem;opacity:.8;margin:.3rem 0}
 .rep{margin:2rem 0 1rem;padding-bottom:.3rem;border-bottom:3px solid var(--c-teal)}
 nav.sub{display:flex;flex-wrap:wrap;gap:.6rem;margin:0 0 1rem}nav.sub a{text-decoration:none;font-weight:600;padding:.15rem .6rem;border-radius:2rem;background:color-mix(in srgb,var(--c-blue) 14%,transparent)}
 /* Tabs: without JavaScript every panel stays visible. */
@@ -54,6 +55,7 @@ h2{font-size:15px;margin:6px 0;color:color-mix(in srgb,var(--sc,var(--c-teal)) 6
 .chip{display:inline-block;font-size:11px;font-weight:650;padding:0 8px;border-radius:99px;border:1.5px solid var(--cc);background:color-mix(in srgb,var(--cc) 15%,transparent);margin:0 4px 3px 0}
 .chg{--cc:var(--amb)}.ex{--cc:var(--blue)}.new{--cc:var(--grn)}.def{--cc:var(--vio);border-style:dashed}.fail{--cc:var(--fail);border-style:dashed}
 table{border-collapse:collapse;width:100%;font-size:12.5px}td,th{padding:4px 6px;border-bottom:1px solid var(--border,#8884);text-align:left;vertical-align:top}caption{text-align:left;font-weight:650}
+.gate{border-left-color:var(--amb)}.src,.hdr{font-size:12px;opacity:.8;margin:3px 0}.badge{display:inline-block;border:1px solid var(--teal);border-radius:99px;padding:0 8px;font-size:12px;font-weight:650}
 .scroll{overflow:auto}details{margin:3px 0}summary{cursor:pointer;font-weight:650}.gwt{border-left:3px solid var(--vio);padding-left:8px}.big>summary{font-size:14px;padding:6px 0}
 .note{border-left:4px solid var(--teal);padding:4px 10px;background:color-mix(in srgb,var(--teal) 10%,transparent)}.simnote{font-size:12px;opacity:.75}
 .dg{display:block;color:var(--foreground,inherit);max-width:100%}.dg .t{font-size:11px;fill:currentColor}.dg .h{font-size:12px;font-weight:650;fill:currentColor}.dg .tag{font-size:10px;font-weight:700;fill:currentColor}.dg .f{font-size:11px;font-weight:700;fill:var(--fail)}
@@ -70,14 +72,13 @@ table{border-collapse:collapse;width:100%;font-size:12.5px}td,th{padding:4px 6px
 <h1>Export a report</h1>
 <p>Help an account owner download a CSV of their current report, while keeping access checks and recovery easy to understand. <!-- Replace with the real outcome, one or two sentences. --></p>
 <p class="note"><strong>Review only.</strong> One file, one tab per phase. Every interaction is a <strong>Simulation</strong>; no export is created. Approval happens in chat, never on this page.</p>
-<!-- Tabs appear as phases are reached. Keep earlier tabs; set each status chip to approved, awaiting approval, not started, done, n/a, skipped or unavailable (with a reason in the panel). -->
+<!-- All tabs exist from the start and are never removed. Set each status chip to approved, awaiting approval, not started, in progress, blocked, done, n/a, skipped or unavailable (PASS or NEEDS WORK on Verify); a phase that does not apply is n/a with the reason in its glance. Run `inline_view.py --check` before ending a stop. -->
 <div class="tabs" role="tablist" aria-label="Phases">
 <button role="tab" id="t-design" aria-controls="p-design" aria-selected="true" data-p="design">Design <span class="st wait">awaiting approval</span></button>
 <button role="tab" id="t-spec" aria-controls="p-spec" aria-selected="false" tabindex="-1" data-p="spec">Spec <span class="st todo">not started</span></button>
 <button role="tab" id="t-arch" aria-controls="p-arch" aria-selected="false" tabindex="-1" data-p="arch">Architecture <span class="st todo">not started</span></button>
 <button role="tab" id="t-build" aria-controls="p-build" aria-selected="false" tabindex="-1" data-p="build">Build <span class="st todo">not started</span></button>
-<button role="tab" id="t-qa" aria-controls="p-qa" aria-selected="false" tabindex="-1" data-p="qa">QA <span class="st todo">not started</span></button>
-<button role="tab" id="t-grade" aria-controls="p-grade" aria-selected="false" tabindex="-1" data-p="grade">Grade <span class="st todo">not started</span></button>
+<button role="tab" id="t-verify" aria-controls="p-verify" aria-selected="false" tabindex="-1" data-p="verify">Verify <span class="st todo">not started</span></button>
 <button role="tab" id="t-appr" aria-controls="p-appr" aria-selected="false" tabindex="-1" data-p="appr">Approvals <span class="st wait">0 of 3 gates</span></button>
 </div>
 </header>
@@ -95,7 +96,7 @@ table{border-collapse:collapse;width:100%;font-size:12.5px}td,th{padding:4px 6px
 <li><strong>Decisions to settle:</strong> row cap and time budget (measured, not guessed); CSV formula handling for untrusted cells; rollout and rollback.</li>
 <li><strong>Out of scope:</strong> scheduled exports, email delivery, background jobs.</li>
 </ul>
-<p class="note"><strong>Next gate:</strong> reply “design approved”, or describe the changes you want. A page control cannot approve this design.</p>
+<p class="note gate"><strong>Next gate:</strong> reply “design approved”, or describe the changes you want. A page control cannot approve this design.</p>
 <p class="skip-inline"><a href="#d-flow">Detailed report ↓</a></p></section>
 <h2 class="rep">Detailed report</h2>
 
@@ -144,6 +145,7 @@ table{border-collapse:collapse;width:100%;font-size:12.5px}td,th{padding:4px 6px
 <p><strong>In scope:</strong> one report export and bounded failures. <strong>Out of scope:</strong> scheduled exports, email delivery, background jobs.</p>
 <ol><li><strong>Q1.</strong> Is 50,000 rows an acceptable first cap? <em>Recommend: measure first.</em></li></ol>
 <p>If an answer adds a failure path, add its stable ID and walkthrough before asking for approval.</p></section>
+<section id="d-checks" aria-labelledby="d-checks-t" style="--sc:var(--c-blue)"><h2 id="d-checks-t">Checks run on this page</h2><p class="tpl">Mechanical checks (<code>inline_view.py --check</code>, link and diagram checks), browser checks that did run, and limitations: what was not checked and why. Chat never carries content that is not here.</p></section>
 </div>
 
 <!-- ============ SPEC ============ -->
@@ -156,10 +158,10 @@ table{border-collapse:collapse;width:100%;font-size:12.5px}td,th{padding:4px 6px
 <li><strong>Verification:</strong> how each scenario will be checked, at which layer.</li>
 <li><strong>Decisions to approve:</strong> the five areas with observable thresholds; proposed values become approved only with explicit approval.</li>
 </ul>
-<p class="note"><strong>Next gate:</strong> reply “spec approved”, or describe the changes you want. No production source before then.</p></section>
+<p class="note gate"><strong>Next gate:</strong> reply “spec approved”, or describe the changes you want. No production source before then.</p></section>
 <h2 class="rep">Detailed report</h2>
 <section id="s-contracts" aria-labelledby="s-contracts-t" style="--sc:var(--c-teal)"><h2 id="s-contracts-t">Contracts and decisions</h2>
-<p>Inputs, outputs, state transitions, error codes, validation and side effects; idempotency, retries, cancellation and persistence where relevant; for fullstack work, the UI state each response causes; migration order and rollback when stored data changes. List the five decisions with observable thresholds, or “N/A — reason”.</p></section>
+<p class="tpl">Inputs, outputs, state transitions, error codes, validation and side effects; idempotency, retries, cancellation and persistence where relevant; for fullstack work, the UI state each response causes; migration order and rollback when stored data changes. List the five decisions with observable thresholds, or “N/A — reason”.</p></section>
 <section id="s-scen" aria-labelledby="s-scen-t" style="--sc:var(--c-vio)"><h2 id="s-scen-t">Acceptance scenarios</h2>
 <details class="gwt" id="s1"><summary><strong>S1</strong> · Successful export</summary><p><strong>Given</strong> an authorized owner and a report within the cap,<br><strong>When</strong> they request an export,<br><strong>Then</strong> they receive a CSV of all permitted rows and the report is unchanged.</p></details>
 <details class="gwt" id="s2"><summary><strong>S2</strong> · Access denied (F1)</summary><p><strong>Given</strong> an owner without access,<br><strong>When</strong> they request an export,<br><strong>Then</strong> the response is 403 with the specified copy, no row is read, and no download starts.</p></details>
@@ -172,6 +174,7 @@ table{border-collapse:collapse;width:100%;font-size:12.5px}td,th{padding:4px 6px
 <tr><th scope="row">F2</th><td>S3</td><td>API test with an over-cap fixture</td><td><span class="chip def">pending</span></td></tr>
 </tbody></table></div>
 <p>Keep this table current as tests and code appear. Mark rows whose verification is manual as manual, never “done”, until someone actually did it.</p></section>
+<section id="s-checks" aria-labelledby="s-checks-t" style="--sc:var(--c-blue)"><h2 id="s-checks-t">Checks run on this page</h2><p class="tpl">Mechanical checks (<code>inline_view.py --check</code>, link and diagram checks), browser checks that did run, and limitations: what was not checked and why. Chat never carries content that is not here.</p></section>
 </div>
 
 <!-- ============ ARCHITECTURE ============ -->
@@ -182,7 +185,7 @@ table{border-collapse:collapse;width:100%;font-size:12.5px}td,th{padding:4px 6px
 <li><strong>Test approach and order:</strong> tests first, then implementation, in small chunks.</li>
 <li><strong>Differs from design:</strong> list every difference, or “nothing”.</li>
 </ul>
-<p class="note"><strong>Next gate:</strong> reply “architecture approved”, or describe the changes you want.</p></section>
+<p class="note gate"><strong>Next gate:</strong> reply “architecture approved”, or describe the changes you want. After the build, QA and an independent grader run automatically (up to 3 subagent runs per approved revision); reply <code>no QA</code> or <code>no grade</code> to skip either. <!-- After approval replace this text with: Architecture approved YYYY-MM-DD (see Approvals). --></p></section>
 <h2 class="rep">Detailed report</h2>
 <section id="a-deps" aria-labelledby="a-deps-t" style="--sc:var(--c-blue)"><h2 id="a-deps-t">Dependencies and ownership</h2>
 <div class="scroll" tabindex="0" role="region" aria-label="Scrollable diagram"><svg class="dg" viewBox="0 0 720 140" role="img" aria-labelledby="dp-t dp-d"><title id="dp-t">Dependencies</title><desc id="dp-d">The new export endpoint depends on the existing access check and report storage. A new test file checks the endpoint.</desc>
@@ -194,44 +197,50 @@ table{border-collapse:collapse;width:100%;font-size:12.5px}td,th{padding:4px 6px
 <g transform="translate(14 130)"><rect class="n new" x="0" y="-10" width="12" height="12" rx="3"/><text class="t" x="18" y="0">new</text><rect class="n chg" x="70" y="-10" width="12" height="12" rx="3"/><text class="t" x="88" y="0">changed</text><rect class="n ex" x="160" y="-10" width="12" height="12" rx="3"/><text class="t" x="178" y="0">existing, unchanged</text><rect class="n def" x="320" y="-10" width="12" height="12" rx="3"/><text class="t" x="338" y="0">deferred or outside the repo</text></g></svg></div>
 <p>Text equivalent: ExportEndpoint (new) calls AccessCheck and ReportStorage (both existing, unchanged).</p></section>
 <section id="a-plan" aria-labelledby="a-plan-t" style="--sc:var(--c-grn)"><h2 id="a-plan-t">Interfaces and phased plan</h2>
-<p>Show actual interface or signature diffs, ownership, trust boundaries, migration order and rollback. List phases with the evidence each produces.</p></section>
+<p class="tpl">Show actual interface or signature diffs, ownership, trust boundaries, migration order and rollback, and every new file the plan implies (entry points such as <code>__main__</code>, config, fixtures). List phases with the evidence each produces.</p></section>
+<section id="a-checks" aria-labelledby="a-checks-t" style="--sc:var(--c-blue)"><h2 id="a-checks-t">Checks run on this page</h2><p class="tpl">Mechanical checks (<code>inline_view.py --check</code>, link and diagram checks), browser checks that did run, and limitations: what was not checked and why. Chat never carries content that is not here.</p></section>
 </div>
 
 <!-- ============ BUILD ============ -->
 <div role="tabpanel" id="p-build" aria-labelledby="t-build" class="tabpanel">
 <section id="b-glance" aria-labelledby="b-glance-t" style="--sc:var(--c-grn)"><h2 id="b-glance-t">At a glance</h2>
 <ul>
-<li><strong>Tests first:</strong> what failed before the implementation, and that the failures were behavioural, not setup or import errors.</li>
+<li class="tpl"><strong>Tests first:</strong> what failed before the implementation, and that the failures were behavioural, not setup or import errors.</li>
 <li><strong>After:</strong> the project quality gate, with the exact command and result.</li>
-<li><strong>Not verified:</strong> anything not run, with the reason.</li></ul></section>
+<li><strong>Not verified:</strong> anything not run, with the reason.</li></ul>
+<p class="note gate"><strong>Next:</strong> QA and the independent grader run automatically on this build (or the opt-out recorded in Approvals).</p></section>
 <h2 class="rep">Detailed report</h2>
-<section id="b-detail" aria-labelledby="b-detail-t" style="--sc:var(--c-blue)"><h2 id="b-detail-t">Evidence</h2><p>Changed files, test-to-scenario map with path:line, command output summaries, and any approved-contract differences found (those return to the gate that owns them).</p></section>
+<section id="b-detail" aria-labelledby="b-detail-t" style="--sc:var(--c-blue)"><h2 id="b-detail-t">Evidence</h2><p class="tpl">Changed files, test-to-scenario map with path:line, command output summaries, and any approved-contract differences found (those return to the gate that owns them).</p></section>
 </div>
 
-<!-- ============ QA ============ -->
-<div role="tabpanel" id="p-qa" aria-labelledby="t-qa" class="tabpanel">
-<section id="q-glance" aria-labelledby="q-glance-t" style="--sc:var(--c-amb)"><h2 id="q-glance-t">At a glance</h2>
-<p class="note skip-inline">A QA tester <em>runs</em> the built feature in an isolated environment and reports what happened. If the change has no runtime behaviour (docs or guidance only), set the tab to n/a and say why, or run a behaviour check and label it an observation.</p>
-<ul>
-<li><strong>Environment:</strong> temporary instance, data and commands used.</li>
-<li><strong>Result:</strong> scenarios run, observed versus expected, defects found.</li>
-<li><strong>Not run:</strong> what was skipped and why.</li></ul></section>
-<h2 class="rep">Detailed report</h2>
-<section id="q-detail" aria-labelledby="q-detail-t" style="--sc:var(--c-vio)"><h2 id="q-detail-t">Scenario runs</h2>
-<div class="scroll" tabindex="0" role="region" aria-label="Scrollable QA table"><table class="cards"><caption>Each scenario run for real</caption><thead><tr><th scope="col">Scenario</th><th scope="col">Steps</th><th scope="col">Expected</th><th scope="col">Observed</th><th scope="col">Result</th><th scope="col">Evidence</th></tr></thead><tbody><tr><th scope="row">S2</th><td data-label="Steps">Call the endpoint as an unauthorized user</td><td data-label="Expected">403, no rows read</td><td data-label="Observed">(fill in)</td><td data-label="Result">matches | differs | not run | extra</td><td data-label="Evidence">(log or screenshot path)</td></tr></tbody></table></div></section>
-</div>
-
-<!-- ============ GRADE ============ -->
-<div role="tabpanel" id="p-grade" aria-labelledby="t-grade" class="tabpanel">
-<section id="g-glance" aria-labelledby="g-glance-t" style="--sc:var(--c-vio)"><h2 id="g-glance-t">At a glance</h2>
+<!-- ============ VERIFY ============ -->
+<!-- Author split: the QA tester's and the grader's lines are pasted VERBATIM (Q# and G# IDs kept). The implementer writes only status, "fixed after grading", budget and the handoff line, and never writes an overall PASS of its own. -->
+<div role="tabpanel" id="p-verify" aria-labelledby="t-verify" class="tabpanel">
+<section id="v-glance" aria-labelledby="v-glance-t" style="--sc:var(--c-vio)"><h2 id="v-glance-t">Verification report</h2>
 <p><span class="chip def">round 1 of at most 2</span></p>
 <ul>
-<li><strong>Who graded:</strong> a fresh read-only reviewer (never the author); list any rule breach it reported.</li>
-<li><strong>Verdict:</strong> PASS or NEEDS WORK, and why in one line.</li>
-<li><strong>Fixed / declined / open:</strong> by finding number.</li>
-<li><strong>Not verified:</strong> what no one actually ran or checked.</li></ul></section>
+<li class="tpl"><strong>Verdict (grader, verbatim):</strong> PASS or NEEDS WORK, and why in one sentence.</li>
+<li class="tpl"><strong>QA result (tester, verbatim):</strong> one line, or “n/a: no runtime behaviour”, or “skipped: reason”.</li>
+</ul>
+<div class="scroll" tabindex="0" role="region" aria-label="Scrollable scorecard"><table class="cards"><caption>Scorecard</caption><thead><tr><th scope="col">Check</th><th scope="col">Result</th><th scope="col">Evidence</th></tr></thead><tbody>
+<tr class="tpl"><th scope="row">Build quality gate</th><td data-label="Result">pass | fail</td><td data-label="Evidence">exact command, counts</td></tr>
+<tr class="tpl"><th scope="row">QA scenarios</th><td data-label="Result">matches N · differs N · not run N</td><td data-label="Evidence">sandbox, run ID</td></tr>
+<tr class="tpl"><th scope="row">Grade criterion 1…7</th><td data-label="Result">PASS | PARTIAL | FAIL</td><td data-label="Evidence">path:line</td></tr>
+</tbody></table></div>
+<div class="scroll" tabindex="0" role="region" aria-label="Scrollable findings table"><table class="cards"><caption>Findings (Q# from QA, G# from the grader)</caption><thead><tr><th scope="col">ID</th><th scope="col">Label</th><th scope="col">Severity</th><th scope="col">Status</th></tr></thead><tbody>
+<tr class="tpl"><th scope="row">Q1 / G1</th><td data-label="Label">implementation | requirement</td><td data-label="Severity">high | medium | low</td><td data-label="Status">fixed | declined (reason) | open</td></tr>
+</tbody></table></div>
+<ul>
+<li class="tpl"><strong>Fixed after grading, not re-graded:</strong> each change, re-checked with the quality gate only; or “none”.</li>
+<li class="tpl"><strong>Not verified:</strong> what no one actually ran or checked.</li>
+<li class="tpl"><strong>Budget used:</strong> spawns, fix rounds, model of each agent; delegation unavailable is stated here.</li></ul>
+<p class="note gate"><strong>Handoff:</strong> nothing is committed or published. Reply with what you want next (for example “commit”), or describe the changes you want.</p></section>
 <h2 class="rep">Detailed report</h2>
-<section id="g-detail" aria-labelledby="g-detail-t" style="--sc:var(--c-blue)"><h2 id="g-detail-t">Criteria, scenario map and findings</h2><p>Criteria table with scores and evidence, the scenario map, and each finding with its resolution.</p></section>
+<section id="v-qa" aria-labelledby="v-qa-t" style="--sc:var(--c-amb)"><h2 id="v-qa-t">QA scenario runs</h2>
+<p class="note skip-inline">A QA tester <em>runs</em> the built feature in an isolated environment and reports what happened. With no runtime behaviour (docs or guidance only), the QA row is n/a with the reason, or a behaviour check labelled an observation.</p>
+<div class="scroll" tabindex="0" role="region" aria-label="Scrollable QA table"><table class="cards"><caption>Each scenario run for real</caption><thead><tr><th scope="col">Scenario</th><th scope="col">Steps</th><th scope="col">Expected</th><th scope="col">Observed</th><th scope="col">Result</th><th scope="col">Evidence</th></tr></thead><tbody><tr class="tpl"><th scope="row">S2</th><td data-label="Steps">Call the endpoint as an unauthorized user</td><td data-label="Expected">403, no rows read</td><td data-label="Observed">(fill in)</td><td data-label="Result">matches | differs | not run | extra</td><td data-label="Evidence">(log or screenshot path)</td></tr></tbody></table></div></section>
+<section id="v-grade" aria-labelledby="v-grade-t" style="--sc:var(--c-blue)"><h2 id="v-grade-t">Criteria, scenario map and findings</h2><p class="tpl">Grader criteria table with scores and evidence, the scenario map, and each finding with its resolution, pasted from the grader’s report.</p></section>
+<section id="v-checks" aria-labelledby="v-checks-t" style="--sc:var(--c-blue)"><h2 id="v-checks-t">Checks run on this page</h2><p class="tpl">Mechanical checks (<code>inline_view.py --check</code>, link and diagram checks), browser checks that did run, and limitations: what was not checked and why. Chat never carries content that is not here.</p></section>
 </div>
 
 <!-- ============ APPROVALS ============ -->
@@ -252,9 +261,16 @@ function act(p,focus,keep){tabs.forEach(t=>{const on=t.dataset.p===p;t.setAttrib
 tabs.forEach((t,i)=>{t.addEventListener('click',()=>act(t.dataset.p));t.addEventListener('keydown',ev=>{const k={ArrowRight:1,ArrowLeft:-1}[ev.key];if(ev.key==='Home'){ev.preventDefault();act(tabs[0].dataset.p,1)}else if(ev.key==='End'){ev.preventDefault();act(tabs[tabs.length-1].dataset.p,1)}else if(k){ev.preventDefault();act(tabs[(i+k+tabs.length)%tabs.length].dataset.p,1)}});});
 function fromHash(){const id=location.hash.slice(1);const el=id&&document.getElementById(id);const pan=el&&el.closest('.tabpanel');act(pan?pan.id.slice(2):(tabs.find(t=>t.getAttribute('aria-selected')==='true')||tabs[0]).dataset.p,false,!!pan);if(el&&pan){for(let d=el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details'))d.open=true;el.scrollIntoView();}}
 fromHash();window.addEventListener('hashchange',fromHash);
+</script>
+<!-- Sample simulation for the example path selector. Replace it with the feature's own, or delete this block with the selector section; inline_view --check fails if it is left in an approved or done Design tab. -->
+<script data-sample>
+'use strict';
 const S={success:'Success: the owner receives a CSV download; the report stays unchanged.',denied:'F1: return 403 before reading rows. No data is returned. Restored access is required to retry.',large:'F2: return 422 report_too_large. No partial file. Narrow the date range before retrying.'};
 const sel=document.getElementById('path'),out=document.getElementById('outcome');
 const ctl=document.getElementById('controls');if(ctl&&sel&&out){ctl.hidden=false;sel.addEventListener('change',()=>{out.textContent=S[sel.value];});out.textContent=S[sel.value];}
+</script>
+<script>
+'use strict';
 const details=Array.from(document.querySelectorAll('details'));let prior=[];
 window.addEventListener('beforeprint',()=>{panels.forEach(p=>{p.hidden=false;});prior=details.map(d=>d.open);details.forEach(d=>{d.open=true;});});
 window.addEventListener('afterprint',()=>{details.forEach((d,i)=>{d.open=prior[i]??true;});const s=tabs.find(t=>t.getAttribute('aria-selected')==='true');if(s)act(s.dataset.p);});
