@@ -254,6 +254,8 @@ def check(page: str, html: str, legacy: bool) -> int:
                 soft.append("tab %s: needs exactly one <p class=\"note gate\"> in the glance (found %d)" % (t, len(gates)))
             if t == "design" and label != "n/a" and 'class="hero"' not in glance:
                 warns.append("tab design: the At a glance has no hero visual (<div class=\"hero\">: a compact mock for frontend, the system diagram for backend; or N/A with a reason)")
+            if re.search(r"<pre\b", glance):
+                warns.append("tab %s: the At a glance contains <pre>; it renders as a code block in chat. Put verbatim agent lines in <li> or <p> items instead (keep <pre> for the detailed report)" % t)
             if re.search(r"\bQ\d+\.", detail) and 'class="questions"' not in glance:
                 warns.append("tab %s: the report has open questions (Q1, ...) but the At a glance has no <details class=\"questions\"> with them" % t)
             n_svg = len(re.findall(r'<svg class="dg"', body))
