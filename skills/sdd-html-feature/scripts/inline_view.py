@@ -8,6 +8,7 @@ TAB: design, spec, arch, build, verify, appr (legacy pages also: qa, grade).
 `verify` renders the Verify tab; a legacy page without it gets its QA and Grade tabs, each with its own glance.
 
 html (default): status line, the tab's "At a glance" open, the detailed report in one <details class="big">, a source footer.
+  When that is over HTML_LIMIT it emits the glance only, with a line telling the reader to open the page for the detailed report.
 md: the same glance as Markdown for hosts that cannot render HTML, then the report anchor, then the gate line verbatim.
 Both are extracted from the page, never retyped. Pass the output to the chat unedited.
 
@@ -20,7 +21,7 @@ import sys
 from html import unescape
 from html.parser import HTMLParser
 
-HTML_LIMIT = 12000  # bytes; above this the chat copy should use --format md
+HTML_LIMIT = 12000  # bytes; above this the detailed report is left out of the html copy (glance only); if even that is over, use --format md
 TABS = ("design", "spec", "arch", "build", "verify", "appr", "qa", "grade")
 STATUS = {"approved", "awaiting approval", "not started", "in progress", "blocked", "done", "n/a",
           "skipped", "unavailable", "pass", "needs work"}
@@ -251,6 +252,10 @@ def check(page: str, html: str, legacy: bool) -> int:
             gates = re.findall(r'<p class="[^"]*\bgate\b[^"]*"', glance)
             if len(gates) != 1:
                 soft.append("tab %s: needs exactly one <p class=\"note gate\"> in the glance (found %d)" % (t, len(gates)))
+            if t == "design" and label != "n/a" and 'class="hero"' not in glance:
+                warns.append("tab design: the At a glance has no hero visual (<div class=\"hero\">: a compact mock for frontend, the system diagram for backend; or N/A with a reason)")
+            if re.search(r"\bQ\d+\.", detail) and 'class="questions"' not in glance:
+                warns.append("tab %s: the report has open questions (Q1, ...) but the At a glance has no <details class=\"questions\"> with them" % t)
             n_svg = len(re.findall(r'<svg class="dg"', body))
             if n_svg > len(re.findall(r"Text equivalent", body)):
                 soft.append("tab %s: a diagram has no 'Text equivalent' paragraph" % t)
@@ -307,16 +312,27 @@ def main() -> int:
 
     badge = badge_of(html)
     if fmt == "html":
-        out = "<style>%s</style>\n" % style.group(1)
-        for n, (i, (glance, detail)) in enumerate(splits):
-            head = '<span class="badge">%s</span> ' % badge if n == 0 and badge else ""
-            out += '<p class="hdr">%s<span class="chip def">%s tab: %s</span></p>\n%s\n' % (head, i, status_of(html, i), glance)
-            if detail.strip():
-                out += '<details class="big"><summary>Detailed report</summary>\n%s\n</details>\n' % detail
-            out += '<p class="src">Source: %s#p-%s</p>\n' % (page, i)
-        sys.stdout.write(out)
+        def render(with_detail: bool) -> str:
+            out = "<style>%s</style>\n" % style.group(1)
+            for n, (i, (glance, detail)) in enumerate(splits):
+                head = '<span class="badge">%s</span> ' % badge if n == 0 and badge else ""
+                out += '<p class="hdr">%s<span class="chip def">%s tab: %s</span></p>\n%s\n' % (head, i, status_of(html, i), glance)
+                if detail.strip():
+                    if with_detail:
+                        out += '<details class="big"><summary>Detailed report</summary>\n%s\n</details>\n' % detail
+                    else:
+                        out += '<p class="note">The detailed report is too large to show here. Open <code>%s#p-%s</code> in a browser to read it.</p>\n' % (page, i)
+                out += '<p class="src">Source: %s#p-%s</p>\n' % (page, i)
+            return out
+        out = render(True)
         if len(out.encode("utf-8")) > HTML_LIMIT:
-            print("inline_view: html output is %d bytes (> %d); copying it into a renderer risks drift. Use --format md for chat." % (len(out.encode("utf-8")), HTML_LIMIT), file=sys.stderr)
+            full = len(out.encode("utf-8"))
+            out = render(False)
+            if len(out.encode("utf-8")) > HTML_LIMIT:
+                print("inline_view: even the glance-only html is %d bytes (> %d); copying it into a renderer risks drift. Use --format md for chat." % (len(out.encode("utf-8")), HTML_LIMIT), file=sys.stderr)
+            else:
+                print("inline_view: full html was %d bytes (> %d); emitted the glance only, with a pointer to the page for the detailed report. Pass this output to the renderer as is." % (full, HTML_LIMIT), file=sys.stderr)
+        sys.stdout.write(out)
         return 0
     chunks, gates = [], []
     for i, (glance, _detail) in splits:
