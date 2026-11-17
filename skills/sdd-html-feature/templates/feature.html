@@ -71,9 +71,8 @@ table{border-collapse:collapse;width:100%;font-size:12.5px}td,th{padding:4px 6px
 <header>
 <span class="badge">Example template · replace everything · design awaiting approval</span>
 <h1>Export a report</h1>
-<p>Help an account owner download a CSV of their current report, while keeping access checks and recovery easy to understand. <!-- Replace with the real outcome, one or two sentences. --></p>
+<p>Help an account owner download a CSV of their current report, while keeping access checks and recovery easy to understand.</p>
 <p class="note"><strong>Review only.</strong> One file, one tab per phase. Every interaction is a <strong>Simulation</strong>; no export is created. Approval happens in chat, never on this page.</p>
-<!-- All tabs exist from the start and are never removed. Set each status chip to approved, awaiting approval, not started, in progress, blocked, done, n/a, skipped or unavailable (PASS or NEEDS WORK on Verify); a phase that does not apply is n/a with the reason in its glance. Run `inline_view.py --check` before ending a stop. -->
 <div class="tabs" role="tablist" aria-label="Phases">
 <button role="tab" id="t-design" aria-controls="p-design" aria-selected="true" data-p="design">Design <span class="st wait">awaiting approval</span></button>
 <button role="tab" id="t-spec" aria-controls="p-spec" aria-selected="false" tabindex="-1" data-p="spec">Spec <span class="st todo">not started</span></button>
@@ -89,9 +88,7 @@ table{border-collapse:collapse;width:100%;font-size:12.5px}td,th{padding:4px 6px
 <div role="tabpanel" id="p-design" aria-labelledby="t-design" class="tabpanel">
 <nav class="sub skip-inline" aria-label="Design sections"><a href="#d-glance">At a glance</a><a href="#d-flow">Flow</a><a href="#d-paths">Explore paths</a><a href="#d-fail">Failures</a><a href="#d-dec">Decisions</a><a href="#d-scope">Scope</a></nav>
 <section id="d-glance" aria-labelledby="d-glance-t" style="--sc:var(--c-teal)"><h2 id="d-glance-t">At a glance</h2>
-<!-- Summary first: everything the reviewer must decide, in a screenful. The detail below must contain all of it, not different content. -->
 <p><span class="chip new">added: CSV export endpoint</span><span class="chip ex">existing: report storage</span><span class="chip fail">F1 access denied</span><span class="chip fail">F2 report too large</span></p>
-<!-- Hero visual (required in the Design glance): frontend = compact static mock of the main screen; backend/CLI/library/jobs = the main system diagram; fullstack = both, small. Compact copy only: the detailed report keeps the full version, with different element ids. Include a short text equivalent. -->
 <div class="hero"><p class="cap">Main path (compact)</p><div class="scroll" tabindex="0" role="region" aria-label="Scrollable diagram"><svg class="dg" viewBox="0 0 520 70" role="img" aria-labelledby="hg-t hg-d"><title id="hg-t">Export in brief</title><desc id="hg-d">The owner requests an export; the endpoint checks access and either returns the CSV or an error.</desc><defs><marker id="arh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="context-stroke"/></marker></defs><rect class="n ex" x="10" y="12" width="130" height="44" rx="8"/><text class="h" x="20" y="38">Owner</text><rect class="n new" x="195" y="12" width="150" height="44" rx="8"/><text class="h" x="205" y="32">Export endpoint</text><text class="tag" x="205" y="48">NEW</text><rect class="n ex" x="400" y="12" width="110" height="44" rx="8"/><text class="h" x="410" y="38">Storage</text><g stroke="currentColor" stroke-width="1.6" fill="none" marker-end="url(#arh)"><path d="M140 34H195"/><path d="M345 34H400"/></g></svg></div>
 <p>Text equivalent: the owner calls the new export endpoint, which reads report storage.</p></div>
 <ul>
@@ -100,14 +97,12 @@ table{border-collapse:collapse;width:100%;font-size:12.5px}td,th{padding:4px 6px
 <li><strong>Decisions to settle:</strong> row cap and time budget (measured, not guessed); CSV formula handling for untrusted cells; rollout and rollback.</li>
 <li><strong>Out of scope:</strong> scheduled exports, email delivery, background jobs.</li>
 </ul>
-<!-- Open questions, if any, go here (collapsible, open by default), same Q ids as in the detailed report. Remove the element when there are none. -->
 <details class="questions" open><summary>Open questions (1)</summary><ol><li><strong>Q1.</strong> Is 50,000 rows an acceptable first cap? <em>Recommend: measure first.</em></li></ol></details>
 <p class="note gate"><strong>Next gate:</strong> reply “design approved”, or describe the changes you want. A page control cannot approve this design.</p>
 <p class="skip-inline"><a href="#d-flow">Detailed report ↓</a></p></section>
 <h2 class="rep">Detailed report</h2>
 
 <section id="d-flow" aria-labelledby="d-flow-t" style="--sc:var(--c-blue)"><h2 id="d-flow-t">Where does validation happen?</h2>
-<!-- Main-flow sequence diagram: real actors, one frame per failure ID, existing vs changed vs added by label and style. Always add a text equivalent. -->
 <div class="scroll" tabindex="0" role="region" aria-label="Scrollable diagram"><svg class="dg" viewBox="0 0 720 250" role="img" aria-labelledby="sq-t sq-d"><title id="sq-t">Export request sequence</title><desc id="sq-d">The owner requests an export. The endpoint checks access; on failure F1 it returns 403 and reads nothing. Otherwise it reads rows from existing report storage and streams a CSV.</desc>
 <defs><marker id="ar1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="context-stroke"/></marker></defs>
 <g stroke="currentColor" stroke-opacity=".35" stroke-dasharray="4 4"><path d="M110 40V240"/><path d="M360 40V240"/><path d="M610 40V240"/></g>
@@ -191,7 +186,7 @@ table{border-collapse:collapse;width:100%;font-size:12.5px}td,th{padding:4px 6px
 <li><strong>Test approach and order:</strong> tests first, then implementation, in small chunks.</li>
 <li><strong>Differs from design:</strong> list every difference, or “nothing”.</li>
 </ul>
-<p class="note gate"><strong>Next gate:</strong> reply “architecture approved”, or describe the changes you want. After the build, QA and an independent grader run automatically (up to 3 subagent runs per approved revision); reply <code>no QA</code> or <code>no grade</code> to skip either. <!-- After approval replace this text with: Architecture approved YYYY-MM-DD (see Approvals). --></p></section>
+<p class="note gate"><strong>Next gate:</strong> reply “architecture approved”, or describe the changes you want. After the build, QA and an independent grader run automatically (up to 3 subagent runs per approved revision); reply <code>no QA</code> or <code>no grade</code> to skip either.</p></section>
 <h2 class="rep">Detailed report</h2>
 <section id="a-deps" aria-labelledby="a-deps-t" style="--sc:var(--c-blue)"><h2 id="a-deps-t">Dependencies and ownership</h2>
 <div class="scroll" tabindex="0" role="region" aria-label="Scrollable diagram"><svg class="dg" viewBox="0 0 720 140" role="img" aria-labelledby="dp-t dp-d"><title id="dp-t">Dependencies</title><desc id="dp-d">The new export endpoint depends on the existing access check and report storage. A new test file checks the endpoint.</desc>
@@ -220,7 +215,6 @@ table{border-collapse:collapse;width:100%;font-size:12.5px}td,th{padding:4px 6px
 </div>
 
 <!-- ============ VERIFY ============ -->
-<!-- Author split: the QA tester's and the grader's lines are pasted VERBATIM (Q# and G# IDs kept). The implementer writes only status, "fixed after grading", budget and the handoff line, and never writes an overall PASS of its own. -->
 <div role="tabpanel" id="p-verify" aria-labelledby="t-verify" class="tabpanel">
 <section id="v-glance" aria-labelledby="v-glance-t" style="--sc:var(--c-vio)"><h2 id="v-glance-t">Verification report</h2>
 <p><span class="chip def">round 1 of at most 2</span></p>

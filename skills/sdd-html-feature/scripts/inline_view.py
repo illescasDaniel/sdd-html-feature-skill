@@ -42,7 +42,7 @@ def panel_body(html: str, tab: str) -> str:
     if not chunk.endswith("</div>"):
         raise ValueError("panel p-%s does not end with its closing </div>" % tab)
     body = chunk[: -len("</div>")]
-    if body.count("<div") != body.count("</div>"):
+    if len(re.findall(r"<div\b", body)) != len(re.findall(r"</div\s*>", body)):
         raise ValueError("panel p-%s has unbalanced <div> tags; refusing to emit a truncated copy" % tab)
     return body
 
@@ -53,9 +53,16 @@ def split_panel(body: str):
     return parts[0], (parts[1] if len(parts) > 1 else "")
 
 
+def chip_of(html: str, tab: str):
+    """The status chip text of a tab's own button, or None when the button or its chip is missing."""
+    button = re.search(r'<button\b[^>]*\bdata-p="%s"[^>]*>(.*?)</button>' % re.escape(tab), html, re.S)
+    chip = re.search(r'<span class="st[^"]*">(.*?)</span>', button.group(1), re.S) if button else None
+    return unescape(re.sub(r"<[^>]+>", "", chip.group(1))).strip() if chip else None
+
+
 def status_of(html: str, tab: str) -> str:
-    m = re.search(r'data-p="%s"[^>]*>.*?<span class="st[^"]*">(.*?)</span>' % re.escape(tab), html, re.S)
-    return unescape(re.sub(r"<[^>]+>", "", m.group(1))).strip() if m else "unknown"
+    chip = chip_of(html, tab)
+    return "unknown" if chip is None else chip
 
 
 def badge_of(html: str) -> str:
@@ -202,6 +209,51 @@ def to_markdown(fragment: str):
 
 # ---------- check ----------
 
+# Tags that load a resource, and the attributes that carry its URL. <a href> is deliberately absent: a link loads nothing.
+LOADING_TAGS = {"script", "img", "iframe", "frame", "source", "link", "video", "audio", "track", "embed",
+                "object", "input", "form", "image", "use"}
+URL_ATTRS = {"src", "href", "srcset", "data", "poster", "xlink:href", "action"}
+TAG_RE = re.compile(r"<([a-zA-Z][\w:-]*)((?:\"[^\"]*\"|'[^']*'|[^'\">])*)>")
+ATTR_RE = re.compile(r"""([^\s=/"'<>]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'>]+)))?""")
+REMOTE_URL = re.compile(r"\s*(?:(?:https?|ftp):)?//", re.I)
+SRCSET_URL = re.compile(r"[\s,]*(\S+)")
+SRCSET_DESCRIPTOR = re.compile(r"[^,]*")
+
+
+def srcset_urls(value: str):
+    """The candidate URLs of a srcset value (a data: URL may contain commas, so split like the HTML spec does)."""
+    pos = 0
+    while True:
+        m = SRCSET_URL.match(value, pos)
+        if not m:
+            return
+        pos, url = m.end(), m.group(1)
+        if url.endswith(","):
+            url = url.rstrip(",")
+        else:
+            pos = SRCSET_DESCRIPTOR.match(value, pos).end()
+        yield url
+
+
+def remote_assets(html: str):
+    """(tag, attribute) pairs where a resource-loading tag points at an http, https, ftp or protocol-relative URL."""
+    found = []
+    for tm in TAG_RE.finditer(html):
+        tag = tm.group(1).lower()
+        if tag not in LOADING_TAGS:
+            continue
+        for am in ATTR_RE.finditer(tm.group(2)):
+            name = am.group(1).lower()
+            raw = next((g for g in am.groups()[1:] if g is not None), None)
+            if name not in URL_ATTRS or raw is None:
+                continue
+            value = unescape(raw)
+            urls = srcset_urls(value) if name == "srcset" else [value]
+            if any(REMOTE_URL.match(u) for u in urls):
+                found.append((tag, name))
+    return found
+
+
 def check(page: str, html: str, legacy: bool) -> int:
     errs, warns = [], []
     soft = warns if legacy else errs
@@ -228,9 +280,9 @@ def check(page: str, html: str, legacy: bool) -> int:
     for m in re.finditer(r"<!--(.*?)-->", html, re.S):
         if "<div" in m.group(1) or "</main>" in m.group(1):
             errs.append("a comment contains <div or </main>; inline_view cannot extract panels safely")
-    for m in re.finditer(r'<(?:script|img|iframe|source|link)\b[^>]*\b(?:src|href)="(?:https?:)?//', html):
-        errs.append("remote asset: " + m.group(0)[:70])
-    if re.search(r"@import|url\(\s*['\"]?(?:https?:)?//", html):
+    for tag, attr in remote_assets(html):
+        errs.append("remote asset: <%s %s> loads from the network; inline it or remove it" % (tag, attr))
+    if re.search(r"@import|url\(\s*['\"]?(?:(?:https?|ftp):)?//", html, re.I):
         errs.append("remote @import or url()")
 
     for t in panels:
@@ -239,9 +291,12 @@ def check(page: str, html: str, legacy: bool) -> int:
         except ValueError as exc:
             errs.append(str(exc))
             continue
-        st = status_of(html, t)
-        label = st.lower()
-        if label not in STATUS and not re.fullmatch(r"\d+ of \d+ gates", label):
+        st = chip_of(html, t)
+        label = (st or "").lower()
+        if st is None:
+            if t in bt:
+                soft.append("tab %s: its tab button has no status chip (<span class=\"st ...\">)" % t)
+        elif label not in STATUS and not re.fullmatch(r"\d+ of \d+ gates", label):
             soft.append("tab %s: status chip %r is not in the allowed vocabulary" % (t, st))
         if t != "appr":
             glance, detail = split_panel(body)
@@ -263,7 +318,7 @@ def check(page: str, html: str, legacy: bool) -> int:
                 soft.append("tab %s: a diagram has no 'Text equivalent' paragraph" % t)
             if label in ("approved", "done", "pass") and re.search(r'class="[^"]*\btpl\b', body):
                 errs.append("tab %s is %s but still has template placeholders (class tpl)" % (t, st))
-    if re.search(r"<script data-sample", html) and status_of(html, "design").lower() in ("approved", "done"):
+    if re.search(r"<script data-sample", html) and (chip_of(html, "design") or "").lower() in ("approved", "done"):
         errs.append("the template's <script data-sample> simulation is still in a page whose Design tab is approved or done")
     for w in warns:
         print("warning: " + w)

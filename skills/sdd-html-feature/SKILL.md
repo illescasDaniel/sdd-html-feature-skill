@@ -1,9 +1,16 @@
 ---
 name: sdd-html-feature
-description: Build features through explicit design, spec and architecture approval gates, then tests, implementation, QA and an independent grade, all recorded in one tabbed self-contained HTML page per feature. Use for a new or changed screen, API, CLI flow, library, data model, job or service when visual Spec-Driven Development is requested or adopted by the project.
+description: Build features through explicit design, spec and architecture approval gates, then tests, implementation, QA and an independent grade, all recorded in one tabbed self-contained HTML page per feature. Use for a new or changed screen, API, CLI flow, library, data model, job or service when visual Spec-Driven Development is requested or adopted by the project. Not for bug fixes, typos or other small changes that add no behavior.
+license: MIT
+metadata:
+  author: Daniel Illescas Romero <illescas.daniel@protonmail.com>
+  version: "1.0.0"
+  tags: [spec-driven-development, html, design-review, approval-gates, testing, workflow]
 ---
 
 # Visual SDD
+
+## Purpose
 
 Make decisions reviewable before committing them to code. One offline HTML page per feature, `sdd/<feature>.html`, is the single source of truth: tabs **Design, Spec, Architecture, Build, Verify (QA + grade), Approvals**, all present from the start and never removed (a phase that does not apply is `n/a` with the reason). Three separate approvals happen in chat. Interactions help the reviewer explore a proposal; clicking a control never constitutes approval.
 
@@ -63,7 +70,7 @@ Keep the traceability table honest. Never mark a row "done" on manual-only verif
 
 Order: build gate passes → **QA** → fix round → **grader** on the post-fix state → fix round if needed → handoff. The grader sees the code after the QA fixes and the QA evidence; fixes made after the grade are re-checked with the quality gate and listed in the Verify tab as not re-graded.
 
-**Automatic by default.** After architecture approval the user has already been told (see phase 2), so spawn both without asking again. Ask mid-flow only if a scenario needs secrets, a paid or real external system, or anything outside the sandbox; without approval mark it "not run". Spawned agents never spawn agents.
+**Automatic by default.** The architecture gate announced both runs and offered the opt-out (see phase 2); start them unless the user replied `no QA` or `no grade`. Ask mid-flow only if a scenario needs secrets, a paid or real external system, or anything outside the sandbox; if the user does not approve, mark it "not run". Spawned agents never spawn agents.
 
 - **QA** ([agents/qa-tester.md](agents/qa-tester.md)): runs the built feature in a temporary copy or worktree, never edits source, never touches production or real secrets, reports scenario → steps → expected → observed → result → evidence. Shape by feature type: backend (temporary instance, real requests including failures), CLI (scratch directory, exit codes and output), library (example script on the public interface), frontend (real browser, states, keyboard, narrow width, dark mode, screenshots), jobs (trigger in isolation, inspect effects). Spec IDs plus at most 5 marked extras; default time limit 20 minutes unless the project says otherwise.
 - **Grade** ([agents/code-grader.md](agents/code-grader.md)): a fresh **read-only judge** given the page, the diff base, current uncommitted changes and the QA evidence. It may run only the project's documented quality gate and the read-only page lint (`inline_view.py --check`), never exploratory commands. If it needs runtime evidence, it lists the gap; the main agent may send that gap to a targeted QA re-check, which counts against the budget.
@@ -81,3 +88,47 @@ Record in the Verify tab what was fixed, declined (with the reason) and still op
 ## Approvals tab
 
 Record only approvals actually received in chat: gate, date, approved content, the user's words. A hash of the approved tab is optional and identifies what was approved, not what the page now shows. Later status or traceability edits are not re-approvals.
+
+## Scripts
+
+| Script | Purpose | Arguments | Exit codes |
+|---|---|---|---|
+| `scripts/inline_view.py` | Renders one tab of the page for chat, or lints the page | `PAGE TAB [--format html\|md]`; `--check PAGE [--legacy]` | 0 ok (lint warnings only); 1 lint errors, an unreadable page, an unknown tab or a bad panel; 2 wrong usage |
+
+## Examples
+
+For the template's "CSV export" example page:
+
+```bash
+python3 <skill-dir>/scripts/inline_view.py --check sdd/csv-export.html          # lint; fix errors before every stop
+python3 <skill-dir>/scripts/inline_view.py sdd/csv-export.html design           # chat report (HTML)
+python3 <skill-dir>/scripts/inline_view.py sdd/csv-export.html design --format md  # same report as Markdown
+```
+
+Each gate ends on the reply its `.gate` line asks for: "design approved", "spec approved" or "architecture approved".
+
+## Requirements
+
+- Python 3, standard library only, for `scripts/inline_view.py`.
+- A browser to review the page (optional; the script's static checks work without one).
+- For automatic verification, a host that can spawn fresh subagents; otherwise QA is labelled "not independent" (phase 4).
+
+## Limitations
+
+- The gates, the read-only grader and the QA sandbox are enforced by instructions, not technically. QA executes freshly built code in a temporary copy, and how isolated that is depends on the host's sandbox and permission settings.
+- `--check` verifies page structure and flags resource-loading tags and CSS that fetch remote content; it does not check design completeness, and it does not inspect what a page's scripts do.
+- The inline chat copy is limited to 12 KB of HTML; a larger report is shown glance-only with a pointer to the page.
+- No validator proves the feature meets the spec: the grade is a model's judgement.
+
+## Troubleshooting
+
+| Symptom (script message) | Cause | Fix |
+|---|---|---|
+| `has unbalanced <div> tags; refusing to emit a truncated copy` | An unclosed element, or a stray `<div`, inside a panel | Fix the markup in that panel |
+| `a comment contains <div or </main>` | An HTML comment that the panel extractor would misread | Reword or remove the comment |
+| stderr: `emitted the glance only` | The full copy is over 12 KB (expected) | Pass the output to the renderer as is |
+| stderr: `even the glance-only html is N bytes` | The glance itself is too large | Shorten the glance, or use `--format md` |
+| `status chip '...' is not in the allowed vocabulary`, or `its tab button has no status chip` | A misspelled or missing chip on the tab button | Use one of the listed statuses (references/review-page.md) |
+| `remote asset: <img src> loads from the network` or `remote @import or url()` | The page loads something from the web | Inline it as a data URI or SVG, or remove it |
+| `still has template placeholders (class tpl)` | Example text left in an approved, done or passed tab | Replace every `class="tpl"` element, and delete the `<script data-sample>` block |
+| `required tab ... is missing` | A tab was removed | Restore it with status `n/a` and the reason; never remove tabs |
