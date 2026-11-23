@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Derive the chat version of one tab of a feature page, or check the page's structure.
 
-  inline_view.py PAGE.html TAB [--format html|md]
+  inline_view.py PAGE.html TAB [--format html|md] [--tmp | --out FILE]
   inline_view.py --check PAGE.html [--legacy]
 
 TAB: design, spec, arch, build, verify, appr (legacy pages also: qa, grade).
@@ -9,6 +9,9 @@ TAB: design, spec, arch, build, verify, appr (legacy pages also: qa, grade).
 
 html (default): status line, the tab's "At a glance" open, the detailed report in one <details class="big">, a source footer.
   When that is over HTML_LIMIT it emits the glance only, with a line telling the reader to open the page for the detailed report.
+--tmp / --out FILE (html only): write the html to a file instead of stdout and print its absolute path. The file always
+  holds the full report (the 12 KB limit exists for copying into a renderer by hand, which a file avoids). --tmp picks a new
+  temp directory and the name <page>-<tab>.html. For hosts that render HTML from a file reference (Codex `visualize`).
 md: the same glance as Markdown for hosts that cannot render HTML, then the report anchor, then the gate line verbatim.
 Both are extracted from the page, never retyped. Pass the output to the chat unedited.
 
@@ -16,8 +19,10 @@ Both are extracted from the page, never retyped. Pass the output to the chat une
 instead of verify, downgrades missing tabs and gate lines to warnings.
 Elements to leave out of the chat copy: class "skip-inline" on a <p> or <nav>. Stdlib only.
 """
+import os
 import re
 import sys
+import tempfile
 from html import unescape
 from html.parser import HTMLParser
 
@@ -340,6 +345,16 @@ def main() -> int:
         del argv[i:i + 2]
         if fmt not in ("html", "md"):
             return fail("--format must be html or md")
+    out_file, use_tmp = None, "--tmp" in argv
+    argv = [a for a in argv if a != "--tmp"]
+    if "--out" in argv:
+        i = argv.index("--out")
+        out_file = argv[i + 1] if i + 1 < len(argv) else ""
+        if not out_file:
+            return fail("--out needs a file path")
+        del argv[i:i + 2]
+    if (out_file or use_tmp) and (fmt != "html" or (out_file and use_tmp)):
+        return fail("use either --tmp or --out FILE, with --format html")
     legacy = "--legacy" in argv
     argv = [a for a in argv if a != "--legacy"]
     do_check = "--check" in argv
@@ -382,6 +397,16 @@ def main() -> int:
                 out += '<p class="src">Source: %s#p-%s</p>\n' % (page, i)
             return out
         out = render(True)
+        if out_file or use_tmp:
+            if use_tmp:
+                out_file = os.path.join(tempfile.mkdtemp(prefix="sdd-inline-"), "%s-%s.html" % (os.path.splitext(os.path.basename(page))[0], tab))
+            try:
+                with open(out_file, "w", encoding="utf-8") as fh:
+                    fh.write(out)
+            except OSError as exc:
+                return fail("cannot write %s: %s" % (out_file, exc.strerror))
+            print(os.path.abspath(out_file))
+            return 0
         if len(out.encode("utf-8")) > HTML_LIMIT:
             full = len(out.encode("utf-8"))
             out = render(False)

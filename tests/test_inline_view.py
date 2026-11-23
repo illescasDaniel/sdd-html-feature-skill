@@ -1,5 +1,6 @@
 """Offline checks for the SDD HTML page checker and report extractor (stdlib unittest only)."""
 import importlib.util
+import pathlib
 import re
 import subprocess
 import sys
@@ -93,6 +94,22 @@ class TemplateAndFormatTests(Base):
         self.assertEqual(self.run_view(TEMPLATE, 'nope').returncode, 1)
         self.assertEqual(self.run_view(TEMPLATE, 'design', '--format', 'xml').returncode, 1)
         self.assertEqual(self.run_view(self.dir / 'missing.html', 'design').returncode, 1)
+
+    def test_tmp_and_out_write_the_full_html_to_a_file_and_print_its_path(self):
+        page = self.page(self.template)
+        stdout = self.run_view(page, 'design').stdout
+        tmp = self.run_view(page, 'design', '--tmp')
+        self.assertEqual(tmp.returncode, 0, tmp.stderr)
+        path = pathlib.Path(tmp.stdout.strip())
+        self.assertTrue(path.is_absolute() and path.name.endswith('-design.html'))
+        self.assertGreaterEqual(len(path.read_text(encoding='utf-8')), len(stdout))
+        self.assertNotIn('emitted the glance only', tmp.stderr)
+        target = self.dir / 'out.html'
+        out = self.run_view(page, 'design', '--out', str(target))
+        self.assertEqual(out.stdout.strip(), str(target))
+        self.assertEqual(target.read_text(encoding='utf-8'), path.read_text(encoding='utf-8'))
+        self.assertEqual(self.run_view(page, 'design', '--tmp', '--format', 'md').returncode, 1)
+        self.assertEqual(self.run_view(page, 'design', '--tmp', '--out', str(target)).returncode, 1)
 
     def test_glance_only_fallback_above_the_size_limit(self):
         result = self.run_view(self.page(self.template), 'design')

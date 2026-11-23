@@ -25,7 +25,7 @@ Compared with [`sdd-feature`](https://github.com/illescasDaniel/sdd-feature-skil
 
 ## Use
 
-Ask your agent to use the skill for a feature (`/sdd-html-feature` in Claude Code, `$sdd-html-feature` in Codex). Review the saved HTML locally; an inline preview is offered when the host supports it. Do not assume every agent host can render interactive HTML inside chat.
+Ask your agent to use the skill for a feature (`/sdd-html-feature` in Claude Code, `$sdd-html-feature` in Codex). Review the saved HTML locally; an inline preview is drawn when the host supports it (the skill lists the exact method per host: the Claude desktop app, T3 Code, Codex, and a Markdown fallback). Do not assume every agent host can render interactive HTML inside chat.
 
 To install manually, copy `skills/sdd-html-feature/` into your agent's skills directory: `~/.claude/skills/` (Claude Code) or `~/.agents/skills/` (Codex), or a project's `.claude/skills/` / `.agents/skills/`. The agent and script paths above are relative to that skill folder. Restart the agent session afterwards.
 
