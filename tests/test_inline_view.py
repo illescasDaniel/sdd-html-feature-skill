@@ -23,7 +23,8 @@ DESIGN_REP = '<h2 class="rep">'
 def load_module():
     spec = importlib.util.spec_from_file_location('inline_view', SCRIPT)
     mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
+    # Read source directly: tests must not read or write bytecode in the installable skill.
+    exec(compile(SCRIPT.read_text(encoding="utf-8"), str(SCRIPT), "exec"), mod.__dict__)
     return mod
 
 

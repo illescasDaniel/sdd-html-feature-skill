@@ -18,6 +18,7 @@ The `parent-context-isolation` case is a two-context probe: establish a random p
 - `resume-at-spec`: saved approval and review opt-out survive conversation loss; work resumes at Spec.
 - `reopen-requirement`: a QA requirement finding cannot silently change an approved contract or production code.
 - `proposal-review`: independent paraphrase, false current-state claims, reuse, unresolved contracts and expected absence of proposed files.
+- `description-routing`: description-only selection across feature types, read-only analysis and tiny fixes.
 - `parent-context-isolation`: actual fresh-child response and dispatch evidence.
 
 The fixture pages are compact saved-artifact inputs, not visual template examples. These runs do not exercise a full implementation/QA/grade cycle, paid services, browser behavior, host tool enforcement, review-budget exhaustion or resolution of contested findings. Report those gaps explicitly.

@@ -1,12 +1,62 @@
 # Evaluation
 
+## Instruction refactor and re-scan (27 November 2026)
+
+The current **uncommitted develop candidate on top of `1faeb96`** scores **A, 94.8/100**, compared with B, 89.8 before this refactor. Both were scanned with the same pinned SkillEvaluator 0.9.0 / SkillSpector 2.13.3 settings described below, with LLM checks disabled and no suppression baseline. The final scan ran on the physical checkout after moving its ignored bytecode cache to trash.
+
+| Metric | Before refactor | After refactor |
+| --- | --- | --- |
+| Static quality | B, 89.8 | **A, 94.8** |
+| Correctness | 85 | 85 |
+| Discoverability | 95 | 100 |
+| Reliability | 100 | 100 |
+| Efficiency | 75 | 100 |
+| Estimated main-file tokens (characters / 4) | 6,240 | 4,786 |
+| Tier 1 | Pass on clean committed export | **Pass on physical checkout**: 11 passed, dependency audit N/A |
+| SkillSpector | Risk 7, one medium LP3 advisory | Risk 7, same advisory; no high or critical findings |
+
+**Changes:** moved host-specific rendering and error troubleshooting into focused references loaded when needed; condensed duplicated hero, question, QA and Verify instructions while retaining their full rules in the owning resources; routed finding resolution directly from SKILL.md; shortened the description from 429 to 136 characters. T3 rendering now uses the host's actual tool-discovery mechanism rather than assuming ToolSearch exists. Three quality deductions disappear: excessive main-file length, nested reference navigation and a long description.
+
+**Bytecode hygiene:** the test module loader now compiles the script's source directly instead of using a loader that can read/write cached bytecode inside the installable skill. A normal `python3 -m unittest discover -s tests -q` run passes all 24 tests and leaves no bytecode in the skill. The earlier failed workspace scan remains below for provenance.
+
+**Behavioral checks:** two fresh native-agent runs stopped at Design and Spec approval respectively, preserved production source, and produced pages passing lint. The resume run preserved the prior Design approval and review opt-out. A separate description-only routing run selected the skill for explicitly requested/adopted visual SDD across jobs, CLI and data models, and skipped typo, read-only analysis and unadopted feature requests. These focused observations do not establish broad routing accuracy or full workflow/renderer integration; [run record](../evals/records/2026-11-27-compact.md).
+
+**Evidence:** [final Tier 1 JSON](evaluations/2026-11-27/improved-tier1.json), [final per-file hashes](evaluations/2026-11-27/improved-manifest.json), [provenance](evaluations/2026-11-27/provenance.json). Final evaluator digest: `sha256:9d462f7201cad50ef4f431754e1212173749bb4b79d8c5bd992074b80b36d772`. All 11 bundled files were inspected; the same four project/example-reference caveats leave SkillSpector's original partial/CAUTION status intact.
+
+**Remaining deductions:** the evaluator still expects a `run_script` call and a top-level `version` field. The skill uses its real shell command and the existing `metadata.version`; neither was changed merely to satisfy a tool convention. LP3 still advises declaring tool scope. This refactor does not establish host-enforced permission boundaries. Tier 2/3 and LLM rubric evaluations remain unrun.
+
+## Static re-evaluation on develop (27 November 2026)
+
+Evaluated committed `develop` revision `1faeb9676a9402216dd906e97fa889a760f32398`, with NVIDIA SkillEvaluator **0.9.0** and its checksum-pinned SkillSpector **2.13.3**, using Python 3.13, `env -i`, a fresh HOME and `--no-llm`. No suppression baseline, LLM rubric, Tier 2 or Tier 3 was used. This evaluation scanned the installable skill subtree; repository-root behavioral cases were not installed or counted as scanner coverage.
+
+The previous revision `1147f32646a822fe33dd6805a59f462836ee543d` was exported and scanned with the same tools/settings for a direct comparison. The older **93.5** result below belongs to the separately identified 17 November working-tree snapshot; it is not the measured score of the previous revision.
+
+| Check | Previous revision, re-run | develop, clean committed export |
+| --- | --- | --- |
+| Static quality | **A, 91.2/100** | **B, 89.8/100** |
+| Correctness / discoverability / reliability | 85 / 95 / 100 | 85 / 95 / 100 |
+| Efficiency | 85 | 75 |
+| Estimated SKILL.md tokens (characters / 4) | 5,238 | 6,240 |
+| Tier 1 | Pass: 11 passed, dependency audit N/A | Pass: 11 passed, dependency audit N/A |
+| SkillSpector | Risk **7/100**, one medium LP3 advisory | Risk **7/100**, one medium LP3 advisory |
+
+The quality decline comes from a new 10-point efficiency deduction for a nested reference in `review-page.md` (now linking to `finding-resolution.md`). Both revisions already incur the 15-point efficiency deduction for exceeding the 5,000 estimated-token recommendation. The existing `run_script`, top-level `version` and long-description deductions remain. The score is a static heuristic, not evidence that the new review workflow performs worse.
+
+**Security:** LP3 reports that tool scope is not declared in frontmatter. This is an advisory, not an observed exploit; it occurs in both revisions. No high or critical findings occur in the committed exports. SkillSpector inspected all nine bundled files in develop, but retains a partial/CAUTION status for four unresolved project/example references (the existing `DESIGN.md` mention and three `sdd/csv-export.html` examples). SkillEvaluator records those caveats and passes the security gate. Tool/read-only restrictions remain host-dependent; no automatic sandbox enforcement is established by this scan.
+
+**Workspace diagnostic:** the first scan of the physical checkout failed, with risk 78, because it included an ignored `scripts/__pycache__/inline_view.cpython-314.pyc`. Git tracks no bytecode. A fresh export of the exact committed skill excluded this local cache and passed. The failed scan is retained below; the pass applies to committed/installable content, not to the contaminated physical checkout. The local cache was not deleted or suppressed for the scan.
+
+**Evidence:** [develop Tier 1 JSON](evaluations/2026-11-27/develop-tier1.json), [previous revision Tier 1 JSON](evaluations/2026-11-27/previous-tier1.json), [workspace diagnostic JSON](evaluations/2026-11-27/workspace-tier1.json), [committed file hashes](evaluations/2026-11-27/develop-manifest.json), [versions, commands and report hashes](evaluations/2026-11-27/provenance.json). JSON reports retain their original temporary source paths. SkillEvaluator's content digest for develop is `sha256:21a65d0a36fbe51d525bcd56f6aa8b141f94af5bc5a898b1f59b65523c366a9f` (algorithm `skill-evaluator-source-tree/2`).
+
+Publication remains incomplete because required Tier 2/3 evidence is absent. The behavioral observations below are separate from SkillEvaluator Tier 3. No skill instructions were modified to improve these scores during this re-evaluation.
+
 ## Behavioral forward evaluations (27 November 2026)
 
 Five fresh native-agent runs exercised the new candidate on `develop`: first Design stop, resume at Spec, requirement reopening, proposal review and parent-turn isolation. The three gate runs left production source unchanged and stopped for the required approval. The proposal reviewer found the supplied current-state error, existing reusable helper and unresolved contract; the isolation child answered `UNKNOWN`.
 
 All expected outcomes were observed. Of 15 case assertions, 14 have observed outcome evidence; the proposal review's no-execution condition remains partly verified through a child receipt. Full child tool traces were not exposed. This is a focused observation on one host/model, with no A/B improvement claim. See the [candidate hash, evidence and limits](../evals/records/2026-11-27.md) and [replayable cases](../evals/README.md).
 
-The current candidate also passes 24 offline unit tests, the skill validator, bundled-link checks and the template page lint. Browser checks, complete build/QA/grade execution, contest resolution and budget exhaustion were not evaluated. The static scores below are historical and have not been re-measured for this candidate.
+The current candidate also passes 24 offline unit tests, the skill validator, bundled-link checks and the template page lint. Browser checks, complete build/QA/grade execution, contest resolution and budget exhaustion were not evaluated. The static re-evaluation above measures the committed candidate separately from these behavioral observations.
 
 ## After improvements (17 November 2026)
 

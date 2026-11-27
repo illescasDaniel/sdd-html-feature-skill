@@ -1,0 +1,1996 @@
+{
+  "version": "0.9.0",
+  "target_path": "/home/daniel/Projects/Code/Skills/sdd-html-feature-skill/skills/sdd-html-feature",
+  "overall_passed": true,
+  "overall_status": "passed",
+  "incomplete_scans": [],
+  "total_validators": 12,
+  "total_skipped": 0,
+  "total_advisory_skipped": 0,
+  "total_errors": 0,
+  "total_warnings": 10,
+  "severity_counts": {
+    "critical": 0,
+    "high": 0,
+    "medium": 5,
+    "low": 2
+  },
+  "finding_counts": {
+    "raw_occurrences": 8,
+    "distinct_occurrences": 8,
+    "unique_findings": 8,
+    "duplicates_removed": 0,
+    "occurrences_grouped": 0,
+    "raw_by_severity": {
+      "critical": 0,
+      "high": 0,
+      "medium": 5,
+      "low": 2,
+      "info": 1
+    },
+    "unique_by_severity": {
+      "critical": 0,
+      "high": 0,
+      "medium": 5,
+      "low": 2,
+      "info": 1
+    }
+  },
+  "finding_groups": [
+    {
+      "finding_id": "SEF-00d19420734aee51c153",
+      "category": "SCRIPT_LINT",
+      "severity": "low",
+      "check_name": "magic_numbers",
+      "message": "inline_view.py contains magic numbers",
+      "suggestion": "Extract magic numbers to named constants",
+      "metadata": null,
+      "validators": [
+        "SCRIPT_LINT"
+      ],
+      "occurrences": [
+        {
+          "occurrence_id": "SEO-1b5303f87ad18c3c8fca",
+          "validator": "SCRIPT_LINT",
+          "file_path": "/home/daniel/Projects/Code/Skills/sdd-html-feature-skill/skills/sdd-html-feature/scripts/inline_view.py",
+          "line_number": null
+        }
+      ],
+      "occurrence_count": 1
+    },
+    {
+      "finding_id": "SEF-01a064412744ade41964",
+      "category": "QUALITY",
+      "severity": "medium",
+      "check_name": "quality_correctness",
+      "message": "SKILL_SPEC recommended field missing: 'version'",
+      "suggestion": "Add 'version' to frontmatter \u2014 Semantic version (e.g., \"1.0.0\")",
+      "metadata": {
+        "dimension": "correctness",
+        "deduction": 5
+      },
+      "validators": [
+        "QUALITY"
+      ],
+      "occurrences": [
+        {
+          "occurrence_id": "SEO-ace17d96184512443042",
+          "validator": "QUALITY",
+          "file_path": "/home/daniel/Projects/Code/Skills/sdd-html-feature-skill/skills/sdd-html-feature/SKILL.md",
+          "line_number": null
+        }
+      ],
+      "occurrence_count": 1
+    },
+    {
+      "finding_id": "SEF-2a784d5d7e6f95b35d2f",
+      "category": "SCRIPT_LINT",
+      "severity": "medium",
+      "check_name": "deep_nesting",
+      "message": "inline_view.py has deeply nested code (depth 14, max 6)",
+      "suggestion": "Refactor into smaller functions to reduce complexity",
+      "metadata": null,
+      "validators": [
+        "SCRIPT_LINT"
+      ],
+      "occurrences": [
+        {
+          "occurrence_id": "SEO-b61ce85bef4c380dbfd9",
+          "validator": "SCRIPT_LINT",
+          "file_path": "/home/daniel/Projects/Code/Skills/sdd-html-feature-skill/skills/sdd-html-feature/scripts/inline_view.py",
+          "line_number": null
+        }
+      ],
+      "occurrence_count": 1
+    },
+    {
+      "finding_id": "SEF-2ab016a817c566724ba9",
+      "category": "SCHEMA",
+      "severity": "medium",
+      "check_name": "body_recommended_section",
+      "message": "Missing recommended section: '## Instructions'",
+      "suggestion": "Consider adding a '## Instructions' or '## Usage' section. Per agentskills.io the body format is unrestricted, so this is a convention nudge \u2014 it also gives the quality scorer a stable anchor for instruction-quality heuristics.",
+      "metadata": {
+        "missing_section": "## Instructions"
+      },
+      "validators": [
+        "Schema & Repository Governance"
+      ],
+      "occurrences": [
+        {
+          "occurrence_id": "SEO-d9f54e93aa2c02d9903e",
+          "validator": "Schema & Repository Governance",
+          "file_path": "/home/daniel/Projects/Code/Skills/sdd-html-feature-skill/skills/sdd-html-feature/SKILL.md",
+          "line_number": null
+        }
+      ],
+      "occurrence_count": 1
+    },
+    {
+      "finding_id": "SEF-607d3fe7ed5457d974fd",
+      "category": "SCHEMA",
+      "severity": "low",
+      "check_name": "unexpected_file",
+      "message": "Unexpected 'templates' in skill root",
+      "suggestion": "Consider moving to one of: agents/, assets/, config/, evals/, references/, scripts/, tests/, tools/. To allow additional directories, set $SKILLEVALUATOR_SCHEMA_ALLOWED_DIRS.",
+      "metadata": null,
+      "validators": [
+        "Schema & Repository Governance"
+      ],
+      "occurrences": [
+        {
+          "occurrence_id": "SEO-8d13968b20345b60f3f8",
+          "validator": "Schema & Repository Governance",
+          "file_path": "/home/daniel/Projects/Code/Skills/sdd-html-feature-skill/skills/sdd-html-feature/templates",
+          "line_number": null
+        }
+      ],
+      "occurrence_count": 1
+    },
+    {
+      "finding_id": "SEF-612ff75d3f50aa0b713a",
+      "category": "SCAN",
+      "severity": "info",
+      "check_name": "skillspector_reference_caveats",
+      "message": "SkillSpector inspected all 11 bundled file(s). 4 missing-reference caveat(s) remain; review referenced paths at SKILL.md:23, SKILL.md:121, SKILL.md:122 (+1 more). Referenced targets were not verified; the scanner's original partial status is retained.",
+      "suggestion": "Review the referenced paths; only files bundled in this skill were inspected.",
+      "metadata": {
+        "scanner_status": "partial",
+        "scanner_recommendation": "CAUTION",
+        "missing_targets_verified": false
+      },
+      "validators": [
+        "Security Scan"
+      ],
+      "occurrences": [
+        {
+          "occurrence_id": "SEO-b947b9423f450323ed97",
+          "validator": "Security Scan",
+          "file_path": "SKILL.md",
+          "line_number": 23
+        }
+      ],
+      "occurrence_count": 1
+    },
+    {
+      "finding_id": "SEF-6d68dab37ccc357a6814",
+      "category": "QUALITY",
+      "severity": "medium",
+      "check_name": "quality_correctness",
+      "message": "Instructions don't mention 'run_script'",
+      "suggestion": "Add explicit run_script() call examples",
+      "metadata": {
+        "dimension": "correctness",
+        "deduction": 10
+      },
+      "validators": [
+        "QUALITY"
+      ],
+      "occurrences": [
+        {
+          "occurrence_id": "SEO-1ad07e298244fe5c38ed",
+          "validator": "QUALITY",
+          "file_path": "/home/daniel/Projects/Code/Skills/sdd-html-feature-skill/skills/sdd-html-feature/SKILL.md",
+          "line_number": null
+        }
+      ],
+      "occurrence_count": 1
+    },
+    {
+      "finding_id": "SEF-8e1fcdbf37b720508663",
+      "category": "SECURITY",
+      "severity": "medium",
+      "check_name": "Unknown (LP3)",
+      "message": "MCP Least Privilege: Without declared permissions the skill's intent is opaque and cannot be validated.",
+      "suggestion": "Without declared permissions the skill's intent is opaque and cannot be validated. Declare the skill's tool scope: for Claude Code / Agent Skills SKILL.md, list the tools the skill may invoke in the 'allowed-tools' frontmatter field; for MCP server manifests, add a 'permissions' list naming the required capabilities.",
+      "metadata": {
+        "skillspector_confidence": 0.7,
+        "artifact_type": "skill",
+        "file_role": "agent_instruction",
+        "applicability": "agent-control-path"
+      },
+      "validators": [
+        "Security Scan"
+      ],
+      "occurrences": [
+        {
+          "occurrence_id": "SEO-c04b8c5539e90a8aac9b",
+          "validator": "Security Scan",
+          "file_path": "SKILL.md",
+          "line_number": 1
+        }
+      ],
+      "occurrence_count": 1
+    }
+  ],
+  "message_counts": {
+    "informational": 4,
+    "independent_errors": 0,
+    "independent_warnings": 1
+  },
+  "skills": [
+    {
+      "name": "sdd-html-feature",
+      "passed": true,
+      "issue_count": 8
+    }
+  ],
+  "contributors": [
+    {
+      "author": "Daniel Illescas Romero <illescas.daniel@protonmail.com>",
+      "items": [
+        {
+          "name": "sdd-html-feature",
+          "passed": true,
+          "issue_count": 8
+        }
+      ],
+      "total_items": 1,
+      "passed_count": 1,
+      "failed_count": 0,
+      "total_issues": 8
+    }
+  ],
+  "top_issues": [
+    {
+      "message": "Missing recommended section: '## Instructions'",
+      "severity": "medium",
+      "total_count": 1,
+      "skills_affected": [
+        "sdd-html-feature"
+      ],
+      "category": "SCHEMA",
+      "suggestion": "Consider adding a '## Instructions' or '## Usage' section. Per agentskills.io the body format is unrestricted, so this is a convention nudge \u2014 it also gives the quality scorer a stable anchor for instruction-quality heuristics."
+    },
+    {
+      "message": "MCP Least Privilege",
+      "severity": "medium",
+      "total_count": 1,
+      "skills_affected": [
+        "sdd-html-feature"
+      ],
+      "category": "SECURITY",
+      "suggestion": "Without declared permissions the skill's intent is opaque and cannot be validated. Declare the skill's tool scope: for Claude Code / Agent Skills SKILL.md, list the tools the skill may invoke in the 'allowed-tools' frontmatter field; for MCP server manifests, add a 'permissions' list naming the required capabilities."
+    },
+    {
+      "message": "Instructions don't mention 'run_script'",
+      "severity": "medium",
+      "total_count": 1,
+      "skills_affected": [
+        "sdd-html-feature"
+      ],
+      "category": "QUALITY",
+      "suggestion": "Add explicit run_script() call examples"
+    },
+    {
+      "message": "SKILL_SPEC recommended field missing: 'version'",
+      "severity": "medium",
+      "total_count": 1,
+      "skills_affected": [
+        "sdd-html-feature"
+      ],
+      "category": "QUALITY",
+      "suggestion": "Add 'version' to frontmatter \u2014 Semantic version (e.g., \"1.0.0\")"
+    },
+    {
+      "message": "inline_view.py has deeply nested code (depth 14, max 6)",
+      "severity": "medium",
+      "total_count": 1,
+      "skills_affected": [
+        "sdd-html-feature"
+      ],
+      "category": "SCRIPT_LINT",
+      "suggestion": "Refactor into smaller functions to reduce complexity"
+    },
+    {
+      "message": "Unexpected 'templates' in skill root",
+      "severity": "low",
+      "total_count": 1,
+      "skills_affected": [
+        "sdd-html-feature"
+      ],
+      "category": "SCHEMA",
+      "suggestion": "Consider moving to one of: agents/, assets/, config/, evals/, references/, scripts/, tests/, tools/. To allow additional directories, set $SKILLEVALUATOR_SCHEMA_ALLOWED_DIRS."
+    },
+    {
+      "message": "inline_view.py contains magic numbers",
+      "severity": "low",
+      "total_count": 1,
+      "skills_affected": [
+        "sdd-html-feature"
+      ],
+      "category": "SCRIPT_LINT",
+      "suggestion": "Extract magic numbers to named constants"
+    },
+    {
+      "message": "SkillSpector inspected all 11 bundled file(s). 4 missing-reference caveat(s) remain; review referenced paths at SKILL.md:23, SKILL.md:121, SKILL.md:122 (+1 more). Referenced targets were not verified; the scanner's original partial status is retained.",
+      "severity": "info",
+      "total_count": 1,
+      "skills_affected": [
+        "sdd-html-feature"
+      ],
+      "category": "SCAN",
+      "suggestion": "Review the referenced paths; only files bundled in this skill were inspected."
+    }
+  ],
+  "results": [
+    {
+      "validator": "Schema & Repository Governance",
+      "description": "Validate SKILL.md frontmatter and repository structure",
+      "passed": true,
+      "status": "passed",
+      "skipped": false,
+      "skip_reason": null,
+      "incomplete_scans": [],
+      "summary": {
+        "files_scanned": 0,
+        "checks_performed": 10,
+        "errors": 0,
+        "warnings": 3,
+        "critical_count": 0,
+        "high_count": 0,
+        "medium_count": 1,
+        "low_count": 1
+      },
+      "finding_counts": {
+        "raw_occurrences": 2,
+        "distinct_occurrences": 2,
+        "unique_findings": 2,
+        "duplicates_removed": 0,
+        "occurrences_grouped": 0,
+        "raw_by_severity": {
+          "critical": 0,
+          "high": 0,
+          "medium": 1,
+          "low": 1,
+          "info": 0
+        },
+        "unique_by_severity": {
+          "critical": 0,
+          "high": 0,
+          "medium": 1,
+          "low": 1,
+          "info": 0
+        }
+      },
+      "findings": [
+        {
+          "finding_id": "SEF-2ab016a817c566724ba9",
+          "occurrence_id": "SEO-d9f54e93aa2c02d9903e",
+          "category": "SCHEMA",
+          "severity": "medium",
+          "check_name": "body_recommended_section",
+          "message": "Missing recommended section: '## Instructions'",
+          "file_path": "/home/daniel/Projects/Code/Skills/sdd-html-feature-skill/skills/sdd-html-feature/SKILL.md",
+          "line_number": null,
+          "line_content": null,
+          "suggestion": "Consider adding a '## Instructions' or '## Usage' section. Per agentskills.io the body format is unrestricted, so this is a convention nudge \u2014 it also gives the quality scorer a stable anchor for instruction-quality heuristics.",
+          "metadata": {
+            "missing_section": "## Instructions"
+          }
+        },
+        {
+          "finding_id": "SEF-607d3fe7ed5457d974fd",
+          "occurrence_id": "SEO-8d13968b20345b60f3f8",
+          "category": "SCHEMA",
+          "severity": "low",
+          "check_name": "unexpected_file",
+          "message": "Unexpected 'templates' in skill root",
+          "file_path": "/home/daniel/Projects/Code/Skills/sdd-html-feature-skill/skills/sdd-html-feature/templates",
+          "line_number": null,
+          "line_content": null,
+          "suggestion": "Consider moving to one of: agents/, assets/, config/, evals/, references/, scripts/, tests/, tools/. To allow additional directories, set $SKILLEVALUATOR_SCHEMA_ALLOWED_DIRS.",
+          "metadata": null
+        }
+      ],
+      "success_details": [
+        {
+          "check": "manifest_exists",
+          "message": "Found skill manifest: SKILL.md",
+          "metadata": {
+            "file_path": "/home/daniel/Projects/Code/Skills/sdd-html-feature-skill/skills/sdd-html-feature/SKILL.md"
+          }
+        },
+        {
+          "check": "frontmatter_valid",
+          "message": "Valid frontmatter for skill 'sdd-html-feature'",
+          "metadata": {
+            "description_length": 136
+          }
+        },
+        {
+          "check": "folder_hierarchy",
+          "message": "Valid general skill structure: skills/sdd-html-feature/",
+          "metadata": null
+        },
+        {
+          "check": "naming_convention",
+          "message": "Folder name 'sdd-html-feature' follows kebab-case convention",
+          "metadata": {
+            "name_length": 16
+          }
+        },
+        {
+          "check": "line_count",
+          "message": "SKILL.md within line limit (143/500)",
+          "metadata": {
+            "line_count": 143,
+            "limit": 500
+          }
+        },
+        {
+          "check": "body_heading",
+          "message": "Body contains a top-level heading",
+          "metadata": null
+        },
+        {
+          "check": "body_recommended_section",
+          "message": "Found recommended section: '## Examples'",
+          "metadata": null
+        },
+        {
+          "check": "optional_files",
+          "message": "Found optional supporting files: agents, references, scripts",
+          "metadata": {
+            "files_found": [
+              "agents",
+              "references",
+              "scripts"
+            ]
+          }
+        },
+        {
+          "check": "name_consistency",
+          "message": "Directory name matches frontmatter: 'sdd-html-feature'",
+          "metadata": null
+        },
+        {
+          "check": "author_format",
+          "message": "Valid author format: Daniel Illescas Romero <illescas.daniel@protonmail.com>",
+          "metadata": null
+        }
+      ],
+      "legacy": {
+        "errors": [],
+        "warnings": [
+          "[SCHEMA-MEDIUM] Missing recommended section: '## Instructions' in /home/daniel/Projects/Code/Skills/sdd-html-feature-skill/skills/sdd-html-feature/SKILL.md",
+          "[SCHEMA-LOW] Unexpected 'templates' in skill root in /home/daniel/Projects/Code/Skills/sdd-html-feature-skill/skills/sdd-html-feature/templates",
+          "Workflow scope: llm skipped. LLM checks disabled by --no-llm."
+        ],
+        "messages": [
+          "[OK] manifest_exists: Found skill manifest: SKILL.md",
+          "[OK] frontmatter_valid: Valid frontmatter for skill 'sdd-html-feature'",
+          "[OK] folder_hierarchy: Valid general skill structure: skills/sdd-html-feature/",
+          "[OK] naming_convention: Folder name 'sdd-html-feature' follows kebab-case convention",
+          "[OK] line_count: SKILL.md within line limit (143/500)",
+          "[OK] body_heading: Body contains a top-level heading",
+          "[OK] body_recommended_section: Found recommended section: '## Examples'",
+          "[OK] optional_files: Found optional supporting files: agents, references, scripts",
+          "[OK] name_consistency: Directory name matches frontmatter: 'sdd-html-feature'",
+          "[OK] author_format: Valid author format: Daniel Illescas Romero <illescas.daniel@protonmail.com>"
+        ]
+      },
+      "tier1_required_checks": [
+        "code-integrity",
+        "license",
+        "lint",
+        "pii",
+        "quality",
+        "schema",
+        "security",
+        "unicode",
+        "version"
+      ],
+      "tier1_unscanned_paths": [],
+      "gating": {
+        "tier": 1,
+        "blocking": true
+      },
+      "publication_target": {
+        "skill_name": "sdd-html-feature",
+        "skill_digest": "sha256:9d462f7201cad50ef4f431754e1212173749bb4b79d8c5bd992074b80b36d772",
+        "skill_digest_algorithm": "skill-evaluator-source-tree/2"
+      },
+      "publication_evidence": {
+        "schema_version": 1,
+        "producer": "skillevaluator.tier1",
+        "tier": 1,
+        "check_id": "schema"
+      },
+      "workflow": {
+        "tier": 1,
+        "stages": {
+          "validation": {
+            "status": "passed"
+          },
+          "llm": {
+            "status": "skipped",
+            "reason": "LLM checks disabled by --no-llm."
+          }
+        }
+      }
+    },
+    {
+      "validator": "Semantic Version Validation",
+      "description": "Validate optional metadata.version labels and require strict bumps",
+      "passed": true,
+      "status": "passed",
+      "skipped": false,
+      "skip_reason": null,
+      "incomplete_scans": [],
+      "summary": {
+        "files_scanned": 0,
+        "checks_performed": 1,
+        "errors": 0,
+        "warnings": 0,
+        "critical_count": 0,
+        "high_count": 0,
+        "medium_count": 0,
+        "low_count": 0
+      },
+      "finding_counts": {
+        "raw_occurrences": 0,
+        "distinct_occurrences": 0,
+        "unique_findings": 0,
+        "duplicates_removed": 0,
+        "occurrences_grouped": 0,
+        "raw_by_severity": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "info": 0
+        },
+        "unique_by_severity": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "info": 0
+        }
+      },
+      "findings": [],
+      "success_details": [
+        {
+          "check": "version_semver",
+          "message": "Valid semantic version: 1.0.0",
+          "metadata": {
+            "version": "1.0.0",
+            "previous_version": null
+          }
+        }
+      ],
+      "legacy": {
+        "errors": [],
+        "warnings": [],
+        "messages": [
+          "[OK] version_semver: Valid semantic version: 1.0.0"
+        ]
+      },
+      "tier1_required_checks": [
+        "code-integrity",
+        "license",
+        "lint",
+        "pii",
+        "quality",
+        "schema",
+        "security",
+        "unicode",
+        "version"
+      ],
+      "tier1_unscanned_paths": [],
+      "gating": {
+        "tier": 1,
+        "blocking": true
+      },
+      "publication_target": {
+        "skill_name": "sdd-html-feature",
+        "skill_digest": "sha256:9d462f7201cad50ef4f431754e1212173749bb4b79d8c5bd992074b80b36d772",
+        "skill_digest_algorithm": "skill-evaluator-source-tree/2"
+      },
+      "publication_evidence": {
+        "schema_version": 1,
+        "producer": "skillevaluator.tier1",
+        "tier": 1,
+        "check_id": "version"
+      },
+      "workflow": {
+        "tier": 1,
+        "stages": {
+          "validation": {
+            "status": "passed"
+          },
+          "llm": {
+            "status": "skipped",
+            "reason": "LLM checks disabled by --no-llm."
+          }
+        }
+      }
+    },
+    {
+      "validator": "Security Scan",
+      "description": "Detect security vulnerabilities and PII/secrets",
+      "passed": true,
+      "status": "passed",
+      "skipped": false,
+      "skip_reason": null,
+      "incomplete_scans": [],
+      "scanners": {
+        "skillspector": "2.13.3"
+      },
+      "summary": {
+        "files_scanned": 0,
+        "checks_performed": 1,
+        "errors": 0,
+        "warnings": 2,
+        "critical_count": 0,
+        "high_count": 0,
+        "medium_count": 1,
+        "low_count": 0
+      },
+      "finding_counts": {
+        "raw_occurrences": 2,
+        "distinct_occurrences": 2,
+        "unique_findings": 2,
+        "duplicates_removed": 0,
+        "occurrences_grouped": 0,
+        "raw_by_severity": {
+          "critical": 0,
+          "high": 0,
+          "medium": 1,
+          "low": 0,
+          "info": 1
+        },
+        "unique_by_severity": {
+          "critical": 0,
+          "high": 0,
+          "medium": 1,
+          "low": 0,
+          "info": 1
+        }
+      },
+      "findings": [
+        {
+          "finding_id": "SEF-612ff75d3f50aa0b713a",
+          "occurrence_id": "SEO-b947b9423f450323ed97",
+          "category": "SCAN",
+          "severity": "info",
+          "check_name": "skillspector_reference_caveats",
+          "message": "SkillSpector inspected all 11 bundled file(s). 4 missing-reference caveat(s) remain; review referenced paths at SKILL.md:23, SKILL.md:121, SKILL.md:122 (+1 more). Referenced targets were not verified; the scanner's original partial status is retained.",
+          "file_path": "SKILL.md",
+          "line_number": 23,
+          "line_content": null,
+          "suggestion": "Review the referenced paths; only files bundled in this skill were inspected.",
+          "metadata": {
+            "scanner_status": "partial",
+            "scanner_recommendation": "CAUTION",
+            "missing_targets_verified": false
+          }
+        },
+        {
+          "finding_id": "SEF-8e1fcdbf37b720508663",
+          "occurrence_id": "SEO-c04b8c5539e90a8aac9b",
+          "category": "SECURITY",
+          "severity": "medium",
+          "check_name": "Unknown (LP3)",
+          "message": "MCP Least Privilege: Without declared permissions the skill's intent is opaque and cannot be validated.",
+          "file_path": "SKILL.md",
+          "line_number": 1,
+          "line_content": null,
+          "suggestion": "Without declared permissions the skill's intent is opaque and cannot be validated. Declare the skill's tool scope: for Claude Code / Agent Skills SKILL.md, list the tools the skill may invoke in the 'allowed-tools' frontmatter field; for MCP server manifests, add a 'permissions' list naming the required capabilities.",
+          "metadata": {
+            "skillspector_confidence": 0.7,
+            "artifact_type": "skill",
+            "file_role": "agent_instruction",
+            "applicability": "agent-control-path"
+          }
+        }
+      ],
+      "success_details": [
+        {
+          "check": "skillspector",
+          "message": "Security scan completed - 1 advisory finding(s) (no critical/high issues)",
+          "metadata": {
+            "issue_count": 1
+          }
+        }
+      ],
+      "legacy": {
+        "errors": [],
+        "warnings": [
+          "[SCAN-INFO] SkillSpector inspected all 11 bundled file(s). 4 missing-reference caveat(s) remain; review referenced paths at SKILL.md:23, SKILL.md:121, SKILL.md:122 (+1 more). Referenced targets were not verified; the scanner's original partial status is retained. in SKILL.md:23",
+          "[SECURITY-MEDIUM] MCP Least Privilege: Without declared permissions the skill's intent is opaque and cannot be validated. in SKILL.md:1"
+        ],
+        "messages": [
+          "[OK] skillspector: Security scan completed - 1 advisory finding(s) (no critical/high issues)"
+        ]
+      },
+      "tier1_required_checks": [
+        "code-integrity",
+        "license",
+        "lint",
+        "pii",
+        "quality",
+        "schema",
+        "security",
+        "unicode",
+        "version"
+      ],
+      "tier1_unscanned_paths": [],
+      "skillspector_version": "2.13.3",
+      "skillspector_applicability": {
+        "artifact_type": "skill",
+        "kept_issues": 1,
+        "suppressed_inapplicable_issues": 0,
+        "suppressed_by_file_role": {},
+        "raw_risk_score": 7,
+        "applicable_risk_score": 7
+      },
+      "skillspector_reference_caveats": {
+        "status": "partial",
+        "recommendation": "CAUTION",
+        "reason_code": "reference_missing",
+        "count": 4,
+        "fully_inspected_files": 11,
+        "missing_targets_verified": false
+      },
+      "gating": {
+        "tier": 1,
+        "blocking": true
+      },
+      "publication_target": {
+        "skill_name": "sdd-html-feature",
+        "skill_digest": "sha256:9d462f7201cad50ef4f431754e1212173749bb4b79d8c5bd992074b80b36d772",
+        "skill_digest_algorithm": "skill-evaluator-source-tree/2"
+      },
+      "publication_evidence": {
+        "schema_version": 1,
+        "producer": "skillevaluator.tier1",
+        "tier": 1,
+        "check_id": "security"
+      },
+      "workflow": {
+        "tier": 1,
+        "stages": {
+          "validation": {
+            "status": "passed"
+          },
+          "llm": {
+            "status": "skipped",
+            "reason": "LLM checks disabled by --no-llm."
+          }
+        }
+      }
+    },
+    {
+      "validator": "PII Scan",
+      "description": "Detect PII and local identifiers",
+      "passed": true,
+      "status": "passed",
+      "skipped": false,
+      "skip_reason": null,
+      "incomplete_scans": [],
+      "summary": {
+        "files_scanned": 10,
+        "checks_performed": 2,
+        "errors": 0,
+        "warnings": 0,
+        "critical_count": 0,
+        "high_count": 0,
+        "medium_count": 0,
+        "low_count": 0
+      },
+      "finding_counts": {
+        "raw_occurrences": 0,
+        "distinct_occurrences": 0,
+        "unique_findings": 0,
+        "duplicates_removed": 0,
+        "occurrences_grouped": 0,
+        "raw_by_severity": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "info": 0
+        },
+        "unique_by_severity": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "info": 0
+        }
+      },
+      "findings": [],
+      "success_details": [
+        {
+          "check": "pii_scan_start",
+          "message": "Scanning 10 files for PII",
+          "metadata": {
+            "file_count": 10
+          }
+        },
+        {
+          "check": "pii_detection",
+          "message": "No PII detected in 10 files (emails, SSNs, phone numbers, paths)",
+          "metadata": {
+            "files_scanned": 10
+          }
+        }
+      ],
+      "legacy": {
+        "errors": [],
+        "warnings": [],
+        "messages": [
+          "[OK] pii_scan_start: Scanning 10 files for PII",
+          "[OK] pii_detection: No PII detected in 10 files (emails, SSNs, phone numbers, paths)"
+        ]
+      },
+      "tier1_required_checks": [
+        "code-integrity",
+        "license",
+        "lint",
+        "pii",
+        "quality",
+        "schema",
+        "security",
+        "unicode",
+        "version"
+      ],
+      "tier1_unscanned_paths": [],
+      "gating": {
+        "tier": 1,
+        "blocking": true
+      },
+      "publication_target": {
+        "skill_name": "sdd-html-feature",
+        "skill_digest": "sha256:9d462f7201cad50ef4f431754e1212173749bb4b79d8c5bd992074b80b36d772",
+        "skill_digest_algorithm": "skill-evaluator-source-tree/2"
+      },
+      "publication_evidence": {
+        "schema_version": 1,
+        "producer": "skillevaluator.tier1",
+        "tier": 1,
+        "check_id": "pii"
+      },
+      "workflow": {
+        "tier": 1,
+        "stages": {
+          "validation": {
+            "status": "passed"
+          },
+          "llm": {
+            "status": "skipped",
+            "reason": "LLM checks disabled by --no-llm."
+          }
+        }
+      }
+    },
+    {
+      "validator": "License Compliance",
+      "description": "Validate license compliance for Skills, Rules, and Workflows",
+      "passed": true,
+      "status": "passed",
+      "skipped": false,
+      "skip_reason": null,
+      "incomplete_scans": [],
+      "summary": {
+        "files_scanned": 0,
+        "checks_performed": 1,
+        "errors": 0,
+        "warnings": 0,
+        "critical_count": 0,
+        "high_count": 0,
+        "medium_count": 0,
+        "low_count": 0
+      },
+      "finding_counts": {
+        "raw_occurrences": 0,
+        "distinct_occurrences": 0,
+        "unique_findings": 0,
+        "duplicates_removed": 0,
+        "occurrences_grouped": 0,
+        "raw_by_severity": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "info": 0
+        },
+        "unique_by_severity": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "info": 0
+        }
+      },
+      "findings": [],
+      "success_details": [
+        {
+          "check": "license_compliance",
+          "message": "License compliance scan completed (allowed)",
+          "metadata": {
+            "license_status": "allowed"
+          }
+        }
+      ],
+      "legacy": {
+        "errors": [],
+        "warnings": [],
+        "messages": [
+          "Tier 1: Found license declaration in frontmatter (SKILL.md)",
+          "License: MIT (ALLOWED - permissive)",
+          "[OK] license_compliance: License compliance scan completed (allowed)"
+        ]
+      },
+      "tier1_required_checks": [
+        "code-integrity",
+        "license",
+        "lint",
+        "pii",
+        "quality",
+        "schema",
+        "security",
+        "unicode",
+        "version"
+      ],
+      "tier1_unscanned_paths": [],
+      "gating": {
+        "tier": 1,
+        "blocking": true
+      },
+      "publication_target": {
+        "skill_name": "sdd-html-feature",
+        "skill_digest": "sha256:9d462f7201cad50ef4f431754e1212173749bb4b79d8c5bd992074b80b36d772",
+        "skill_digest_algorithm": "skill-evaluator-source-tree/2"
+      },
+      "publication_evidence": {
+        "schema_version": 1,
+        "producer": "skillevaluator.tier1",
+        "tier": 1,
+        "check_id": "license"
+      },
+      "workflow": {
+        "tier": 1,
+        "stages": {
+          "validation": {
+            "status": "passed"
+          },
+          "llm": {
+            "status": "skipped",
+            "reason": "LLM checks disabled by --no-llm."
+          }
+        }
+      }
+    },
+    {
+      "validator": "Code Risk Analysis",
+      "description": "Static code analysis using Bandit and packaged Semgrep rules",
+      "passed": true,
+      "status": "passed",
+      "skipped": false,
+      "skip_reason": null,
+      "incomplete_scans": [],
+      "scanners": {
+        "bandit": "1.9.4"
+      },
+      "summary": {
+        "files_scanned": 0,
+        "checks_performed": 1,
+        "errors": 0,
+        "warnings": 0,
+        "critical_count": 0,
+        "high_count": 0,
+        "medium_count": 0,
+        "low_count": 0
+      },
+      "finding_counts": {
+        "raw_occurrences": 0,
+        "distinct_occurrences": 0,
+        "unique_findings": 0,
+        "duplicates_removed": 0,
+        "occurrences_grouped": 0,
+        "raw_by_severity": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "info": 0
+        },
+        "unique_by_severity": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "info": 0
+        }
+      },
+      "findings": [],
+      "success_details": [
+        {
+          "check": "bandit",
+          "message": "Bandit: No security issues found",
+          "metadata": null
+        }
+      ],
+      "legacy": {
+        "errors": [],
+        "warnings": [],
+        "messages": [
+          "Found 1 Python, 0 Shell, 0 JavaScript/TypeScript files",
+          "[OK] bandit: Bandit: No security issues found",
+          "Semgrep not installed; skipped. Optional; install separately with: brew install semgrep (macOS) or uv tool install semgrep"
+        ]
+      },
+      "tier1_required_checks": [
+        "code-integrity",
+        "license",
+        "lint",
+        "pii",
+        "quality",
+        "schema",
+        "security",
+        "unicode",
+        "version"
+      ],
+      "tier1_unscanned_paths": [],
+      "gating": {
+        "tier": 1,
+        "blocking": true
+      },
+      "publication_target": {
+        "skill_name": "sdd-html-feature",
+        "skill_digest": "sha256:9d462f7201cad50ef4f431754e1212173749bb4b79d8c5bd992074b80b36d772",
+        "skill_digest_algorithm": "skill-evaluator-source-tree/2"
+      },
+      "publication_evidence": {
+        "schema_version": 1,
+        "producer": "skillevaluator.tier1",
+        "tier": 1,
+        "check_id": "code-integrity"
+      },
+      "workflow": {
+        "tier": 1,
+        "stages": {
+          "validation": {
+            "status": "passed"
+          },
+          "llm": {
+            "status": "skipped",
+            "reason": "LLM checks disabled by --no-llm."
+          }
+        }
+      }
+    },
+    {
+      "validator": "Secrets Detection",
+      "description": "Detect hardcoded secrets, API keys, and credentials using Gitleaks",
+      "passed": true,
+      "status": "passed",
+      "skipped": false,
+      "skip_reason": null,
+      "incomplete_scans": [],
+      "scanners": {
+        "gitleaks": "unknown"
+      },
+      "summary": {
+        "files_scanned": 0,
+        "checks_performed": 1,
+        "errors": 0,
+        "warnings": 0,
+        "critical_count": 0,
+        "high_count": 0,
+        "medium_count": 0,
+        "low_count": 0
+      },
+      "finding_counts": {
+        "raw_occurrences": 0,
+        "distinct_occurrences": 0,
+        "unique_findings": 0,
+        "duplicates_removed": 0,
+        "occurrences_grouped": 0,
+        "raw_by_severity": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "info": 0
+        },
+        "unique_by_severity": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "info": 0
+        }
+      },
+      "findings": [],
+      "success_details": [
+        {
+          "check": "gitleaks",
+          "message": "No secrets detected by Gitleaks",
+          "metadata": null
+        }
+      ],
+      "legacy": {
+        "errors": [],
+        "warnings": [],
+        "messages": [
+          "[OK] gitleaks: No secrets detected by Gitleaks"
+        ]
+      },
+      "tier1_required_checks": [
+        "code-integrity",
+        "license",
+        "lint",
+        "pii",
+        "quality",
+        "schema",
+        "security",
+        "unicode",
+        "version"
+      ],
+      "tier1_unscanned_paths": [],
+      "gating": {
+        "tier": 1,
+        "blocking": true
+      },
+      "publication_target": {
+        "skill_name": "sdd-html-feature",
+        "skill_digest": "sha256:9d462f7201cad50ef4f431754e1212173749bb4b79d8c5bd992074b80b36d772",
+        "skill_digest_algorithm": "skill-evaluator-source-tree/2"
+      },
+      "publication_evidence": {
+        "schema_version": 1,
+        "producer": "skillevaluator.tier1",
+        "tier": 1,
+        "check_id": "code-integrity"
+      },
+      "workflow": {
+        "tier": 1,
+        "stages": {
+          "validation": {
+            "status": "passed"
+          },
+          "llm": {
+            "status": "skipped",
+            "reason": "LLM checks disabled by --no-llm."
+          }
+        }
+      }
+    },
+    {
+      "validator": "Code Integrity & Hygiene",
+      "description": "Validate dead links, dependencies, and static Python test-file discovery",
+      "passed": true,
+      "status": "passed",
+      "skipped": false,
+      "skip_reason": null,
+      "incomplete_scans": [],
+      "summary": {
+        "files_scanned": 9,
+        "checks_performed": 4,
+        "errors": 0,
+        "warnings": 1,
+        "critical_count": 0,
+        "high_count": 0,
+        "medium_count": 0,
+        "low_count": 0
+      },
+      "finding_counts": {
+        "raw_occurrences": 0,
+        "distinct_occurrences": 0,
+        "unique_findings": 0,
+        "duplicates_removed": 0,
+        "occurrences_grouped": 0,
+        "raw_by_severity": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "info": 0
+        },
+        "unique_by_severity": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "info": 0
+        }
+      },
+      "findings": [],
+      "success_details": [
+        {
+          "check": "dead_links_scan",
+          "message": "Checking 9 markdown files for dead links",
+          "metadata": {
+            "file_count": 9
+          }
+        },
+        {
+          "check": "dead_links",
+          "message": "All relative links valid in 9 markdown file(s)",
+          "metadata": {
+            "files_checked": 9
+          }
+        },
+        {
+          "check": "dependencies",
+          "message": "No dependency files found (requirements.txt, pyproject.toml)",
+          "metadata": null
+        },
+        {
+          "check": "test_discovery",
+          "message": "No standard Python test-file candidates found; target tests were not executed and coverage was not measured. Consider adding tests.",
+          "metadata": {
+            "test_count": 0,
+            "execution_performed": false,
+            "coverage_measured": false,
+            "patterns": [
+              "test_*.py",
+              "*_test.py"
+            ]
+          }
+        }
+      ],
+      "legacy": {
+        "errors": [],
+        "warnings": [
+          "No standard Python test-file candidates found; consider adding tests"
+        ],
+        "messages": [
+          "[OK] dead_links_scan: Checking 9 markdown files for dead links",
+          "[OK] dead_links: All relative links valid in 9 markdown file(s)",
+          "[OK] dependencies: No dependency files found (requirements.txt, pyproject.toml)",
+          "[OK] test_discovery: No standard Python test-file candidates found; target tests were not executed and coverage was not measured. Consider adding tests."
+        ]
+      },
+      "tier1_required_checks": [
+        "code-integrity",
+        "license",
+        "lint",
+        "pii",
+        "quality",
+        "schema",
+        "security",
+        "unicode",
+        "version"
+      ],
+      "tier1_unscanned_paths": [],
+      "gating": {
+        "tier": 1,
+        "blocking": true
+      },
+      "publication_target": {
+        "skill_name": "sdd-html-feature",
+        "skill_digest": "sha256:9d462f7201cad50ef4f431754e1212173749bb4b79d8c5bd992074b80b36d772",
+        "skill_digest_algorithm": "skill-evaluator-source-tree/2"
+      },
+      "publication_evidence": {
+        "schema_version": 1,
+        "producer": "skillevaluator.tier1",
+        "tier": 1,
+        "check_id": "code-integrity"
+      },
+      "workflow": {
+        "tier": 1,
+        "stages": {
+          "validation": {
+            "status": "passed"
+          },
+          "llm": {
+            "status": "skipped",
+            "reason": "LLM checks disabled by --no-llm."
+          }
+        }
+      }
+    },
+    {
+      "validator": "Dependency Vulnerability Audit",
+      "description": "Scan dependencies for CVE vulnerabilities using pip-audit and Safety",
+      "passed": true,
+      "status": "passed",
+      "skipped": false,
+      "skip_reason": null,
+      "incomplete_scans": [],
+      "summary": {
+        "files_scanned": 0,
+        "checks_performed": 1,
+        "errors": 0,
+        "warnings": 0,
+        "critical_count": 0,
+        "high_count": 0,
+        "medium_count": 0,
+        "low_count": 0
+      },
+      "finding_counts": {
+        "raw_occurrences": 0,
+        "distinct_occurrences": 0,
+        "unique_findings": 0,
+        "duplicates_removed": 0,
+        "occurrences_grouped": 0,
+        "raw_by_severity": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "info": 0
+        },
+        "unique_by_severity": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "info": 0
+        }
+      },
+      "findings": [],
+      "success_details": [
+        {
+          "check": "dependency_file_discovery",
+          "message": "No dependency files found - vulnerability audit is not applicable",
+          "metadata": null
+        }
+      ],
+      "legacy": {
+        "errors": [],
+        "warnings": [],
+        "messages": [
+          "[OK] dependency_file_discovery: No dependency files found - vulnerability audit is not applicable"
+        ]
+      },
+      "tier1_required_checks": [
+        "code-integrity",
+        "license",
+        "lint",
+        "pii",
+        "quality",
+        "schema",
+        "security",
+        "unicode",
+        "version"
+      ],
+      "tier1_unscanned_paths": [],
+      "gating": {
+        "tier": 1,
+        "blocking": true
+      },
+      "publication_target": {
+        "skill_name": "sdd-html-feature",
+        "skill_digest": "sha256:9d462f7201cad50ef4f431754e1212173749bb4b79d8c5bd992074b80b36d772",
+        "skill_digest_algorithm": "skill-evaluator-source-tree/2"
+      },
+      "publication_evidence": {
+        "schema_version": 1,
+        "producer": "skillevaluator.tier1",
+        "tier": 1,
+        "check_id": "dependency"
+      },
+      "workflow": {
+        "tier": 1,
+        "stages": {
+          "validation": {
+            "status": "passed"
+          },
+          "llm": {
+            "status": "skipped",
+            "reason": "LLM checks disabled by --no-llm."
+          }
+        }
+      }
+    },
+    {
+      "validator": "Unicode Smuggling Detection",
+      "description": "Detect invisible Unicode characters and ASCII smuggling",
+      "passed": true,
+      "status": "passed",
+      "skipped": false,
+      "skip_reason": null,
+      "incomplete_scans": [],
+      "summary": {
+        "files_scanned": 11,
+        "checks_performed": 1,
+        "errors": 0,
+        "warnings": 0,
+        "critical_count": 0,
+        "high_count": 0,
+        "medium_count": 0,
+        "low_count": 0
+      },
+      "finding_counts": {
+        "raw_occurrences": 0,
+        "distinct_occurrences": 0,
+        "unique_findings": 0,
+        "duplicates_removed": 0,
+        "occurrences_grouped": 0,
+        "raw_by_severity": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "info": 0
+        },
+        "unique_by_severity": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "info": 0
+        }
+      },
+      "findings": [],
+      "success_details": [
+        {
+          "check": "unicode_scan",
+          "message": "No invisible Unicode characters detected in 11 file(s)",
+          "metadata": {
+            "files_scanned": 11
+          }
+        }
+      ],
+      "legacy": {
+        "errors": [],
+        "warnings": [],
+        "messages": [
+          "[OK] unicode_scan: No invisible Unicode characters detected in 11 file(s)"
+        ]
+      },
+      "tier1_required_checks": [
+        "code-integrity",
+        "license",
+        "lint",
+        "pii",
+        "quality",
+        "schema",
+        "security",
+        "unicode",
+        "version"
+      ],
+      "tier1_unscanned_paths": [],
+      "gating": {
+        "tier": 1,
+        "blocking": true
+      },
+      "publication_target": {
+        "skill_name": "sdd-html-feature",
+        "skill_digest": "sha256:9d462f7201cad50ef4f431754e1212173749bb4b79d8c5bd992074b80b36d772",
+        "skill_digest_algorithm": "skill-evaluator-source-tree/2"
+      },
+      "publication_evidence": {
+        "schema_version": 1,
+        "producer": "skillevaluator.tier1",
+        "tier": 1,
+        "check_id": "unicode"
+      },
+      "workflow": {
+        "tier": 1,
+        "stages": {
+          "validation": {
+            "status": "passed"
+          },
+          "llm": {
+            "status": "skipped",
+            "reason": "LLM checks disabled by --no-llm."
+          }
+        }
+      }
+    },
+    {
+      "validator": "QUALITY",
+      "description": "Skill quality scoring across Correctness (35%), Discoverability (25%), Reliability (25%), and Efficiency (15%)",
+      "passed": true,
+      "status": "passed",
+      "skipped": false,
+      "skip_reason": null,
+      "incomplete_scans": [],
+      "summary": {
+        "files_scanned": 0,
+        "checks_performed": 1,
+        "errors": 0,
+        "warnings": 2,
+        "critical_count": 0,
+        "high_count": 0,
+        "medium_count": 2,
+        "low_count": 0
+      },
+      "finding_counts": {
+        "raw_occurrences": 2,
+        "distinct_occurrences": 2,
+        "unique_findings": 2,
+        "duplicates_removed": 0,
+        "occurrences_grouped": 0,
+        "raw_by_severity": {
+          "critical": 0,
+          "high": 0,
+          "medium": 2,
+          "low": 0,
+          "info": 0
+        },
+        "unique_by_severity": {
+          "critical": 0,
+          "high": 0,
+          "medium": 2,
+          "low": 0,
+          "info": 0
+        }
+      },
+      "findings": [
+        {
+          "finding_id": "SEF-6d68dab37ccc357a6814",
+          "occurrence_id": "SEO-1ad07e298244fe5c38ed",
+          "category": "QUALITY",
+          "severity": "medium",
+          "check_name": "quality_correctness",
+          "message": "Instructions don't mention 'run_script'",
+          "file_path": "/home/daniel/Projects/Code/Skills/sdd-html-feature-skill/skills/sdd-html-feature/SKILL.md",
+          "line_number": null,
+          "line_content": null,
+          "suggestion": "Add explicit run_script() call examples",
+          "metadata": {
+            "dimension": "correctness",
+            "deduction": 10
+          }
+        },
+        {
+          "finding_id": "SEF-01a064412744ade41964",
+          "occurrence_id": "SEO-ace17d96184512443042",
+          "category": "QUALITY",
+          "severity": "medium",
+          "check_name": "quality_correctness",
+          "message": "SKILL_SPEC recommended field missing: 'version'",
+          "file_path": "/home/daniel/Projects/Code/Skills/sdd-html-feature-skill/skills/sdd-html-feature/SKILL.md",
+          "line_number": null,
+          "line_content": null,
+          "suggestion": "Add 'version' to frontmatter \u2014 Semantic version (e.g., \"1.0.0\")",
+          "metadata": {
+            "dimension": "correctness",
+            "deduction": 5
+          }
+        }
+      ],
+      "success_details": [
+        {
+          "check": "quality_score",
+          "message": "Score: 94.8/100 (Grade: A)",
+          "metadata": {
+            "overall_score": 94.8,
+            "grade": "A",
+            "skill_type": "hybrid"
+          }
+        }
+      ],
+      "legacy": {
+        "errors": [],
+        "warnings": [
+          "[QUALITY-MEDIUM] Instructions don't mention 'run_script' in /home/daniel/Projects/Code/Skills/sdd-html-feature-skill/skills/sdd-html-feature/SKILL.md",
+          "[QUALITY-MEDIUM] SKILL_SPEC recommended field missing: 'version' in /home/daniel/Projects/Code/Skills/sdd-html-feature-skill/skills/sdd-html-feature/SKILL.md"
+        ],
+        "messages": [
+          "[OK] quality_score: Score: 94.8/100 (Grade: A)"
+        ]
+      },
+      "tier1_required_checks": [
+        "code-integrity",
+        "license",
+        "lint",
+        "pii",
+        "quality",
+        "schema",
+        "security",
+        "unicode",
+        "version"
+      ],
+      "tier1_unscanned_paths": [],
+      "quality": {
+        "overall_score": 94.8,
+        "grade": "A",
+        "skill_type": "hybrid",
+        "skill_name": "sdd-html-feature",
+        "dimensions": {
+          "correctness": {
+            "score": 85.0,
+            "weight": 0.35,
+            "issues_count": 2,
+            "issues": [
+              {
+                "severity": "warning",
+                "message": "Instructions don't mention 'run_script'",
+                "suggestion": "Add explicit run_script() call examples",
+                "deduction": 10
+              },
+              {
+                "severity": "warning",
+                "message": "SKILL_SPEC recommended field missing: 'version'",
+                "suggestion": "Add 'version' to frontmatter \u2014 Semantic version (e.g., \"1.0.0\")",
+                "deduction": 5
+              }
+            ]
+          },
+          "discoverability": {
+            "score": 100.0,
+            "weight": 0.25,
+            "issues_count": 0,
+            "issues": []
+          },
+          "reliability": {
+            "score": 100.0,
+            "weight": 0.25,
+            "issues_count": 0,
+            "issues": []
+          },
+          "efficiency": {
+            "score": 100.0,
+            "weight": 0.15,
+            "issues_count": 0,
+            "issues": []
+          }
+        },
+        "metrics": {
+          "total_tokens": 4786,
+          "estimated_tokens": 4786,
+          "estimate_method": "characters/4",
+          "recommended_max_tokens": 5000,
+          "frontmatter_tokens": 93,
+          "instructions_tokens": 4691,
+          "script_count": 1,
+          "has_examples": true,
+          "has_error_handling": true,
+          "has_frontmatter": true,
+          "has_instructions": false,
+          "has_scripts": true,
+          "has_lib_module": false
+        }
+      },
+      "gating": {
+        "tier": 1,
+        "blocking": true
+      },
+      "publication_target": {
+        "skill_name": "sdd-html-feature",
+        "skill_digest": "sha256:9d462f7201cad50ef4f431754e1212173749bb4b79d8c5bd992074b80b36d772",
+        "skill_digest_algorithm": "skill-evaluator-source-tree/2"
+      },
+      "publication_evidence": {
+        "schema_version": 1,
+        "producer": "skillevaluator.tier1",
+        "tier": 1,
+        "check_id": "quality"
+      },
+      "workflow": {
+        "tier": 1,
+        "stages": {
+          "validation": {
+            "status": "passed"
+          },
+          "llm": {
+            "status": "skipped",
+            "reason": "LLM checks disabled by --no-llm."
+          }
+        }
+      }
+    },
+    {
+      "validator": "SCRIPT_LINT",
+      "description": "AST-based code quality checks for skill scripts",
+      "passed": true,
+      "status": "passed",
+      "skipped": false,
+      "skip_reason": null,
+      "incomplete_scans": [],
+      "summary": {
+        "files_scanned": 0,
+        "checks_performed": 0,
+        "errors": 0,
+        "warnings": 2,
+        "critical_count": 0,
+        "high_count": 0,
+        "medium_count": 1,
+        "low_count": 1
+      },
+      "finding_counts": {
+        "raw_occurrences": 2,
+        "distinct_occurrences": 2,
+        "unique_findings": 2,
+        "duplicates_removed": 0,
+        "occurrences_grouped": 0,
+        "raw_by_severity": {
+          "critical": 0,
+          "high": 0,
+          "medium": 1,
+          "low": 1,
+          "info": 0
+        },
+        "unique_by_severity": {
+          "critical": 0,
+          "high": 0,
+          "medium": 1,
+          "low": 1,
+          "info": 0
+        }
+      },
+      "findings": [
+        {
+          "finding_id": "SEF-2a784d5d7e6f95b35d2f",
+          "occurrence_id": "SEO-b61ce85bef4c380dbfd9",
+          "category": "SCRIPT_LINT",
+          "severity": "medium",
+          "check_name": "deep_nesting",
+          "message": "inline_view.py has deeply nested code (depth 14, max 6)",
+          "file_path": "/home/daniel/Projects/Code/Skills/sdd-html-feature-skill/skills/sdd-html-feature/scripts/inline_view.py",
+          "line_number": null,
+          "line_content": null,
+          "suggestion": "Refactor into smaller functions to reduce complexity",
+          "metadata": null
+        },
+        {
+          "finding_id": "SEF-00d19420734aee51c153",
+          "occurrence_id": "SEO-1b5303f87ad18c3c8fca",
+          "category": "SCRIPT_LINT",
+          "severity": "low",
+          "check_name": "magic_numbers",
+          "message": "inline_view.py contains magic numbers",
+          "file_path": "/home/daniel/Projects/Code/Skills/sdd-html-feature-skill/skills/sdd-html-feature/scripts/inline_view.py",
+          "line_number": null,
+          "line_content": null,
+          "suggestion": "Extract magic numbers to named constants",
+          "metadata": null
+        }
+      ],
+      "success_details": [],
+      "legacy": {
+        "errors": [],
+        "warnings": [
+          "[SCRIPT_LINT-MEDIUM] inline_view.py has deeply nested code (depth 14, max 6) in /home/daniel/Projects/Code/Skills/sdd-html-feature-skill/skills/sdd-html-feature/scripts/inline_view.py",
+          "[SCRIPT_LINT-LOW] inline_view.py contains magic numbers in /home/daniel/Projects/Code/Skills/sdd-html-feature-skill/skills/sdd-html-feature/scripts/inline_view.py"
+        ],
+        "messages": []
+      },
+      "tier1_required_checks": [
+        "code-integrity",
+        "license",
+        "lint",
+        "pii",
+        "quality",
+        "schema",
+        "security",
+        "unicode",
+        "version"
+      ],
+      "tier1_unscanned_paths": [],
+      "gating": {
+        "tier": 1,
+        "blocking": true
+      },
+      "publication_target": {
+        "skill_name": "sdd-html-feature",
+        "skill_digest": "sha256:9d462f7201cad50ef4f431754e1212173749bb4b79d8c5bd992074b80b36d772",
+        "skill_digest_algorithm": "skill-evaluator-source-tree/2"
+      },
+      "publication_evidence": {
+        "schema_version": 1,
+        "producer": "skillevaluator.tier1",
+        "tier": 1,
+        "check_id": "lint"
+      },
+      "workflow": {
+        "tier": 1,
+        "stages": {
+          "validation": {
+            "status": "passed"
+          },
+          "llm": {
+            "status": "skipped",
+            "reason": "LLM checks disabled by --no-llm."
+          }
+        }
+      }
+    }
+  ],
+  "benchmark_policy": {
+    "tier2_required": true,
+    "tier3_required": true
+  },
+  "publication_status": "incomplete",
+  "publication": {
+    "status": "incomplete",
+    "eligible": false,
+    "reasons": [
+      "Required recognized built-in Tier 2 evidence is missing.",
+      "Tier 3 lacks publication-complete execution evidence."
+    ],
+    "tier3": {
+      "status": "not_run",
+      "evidence_complete": false,
+      "execution_status": "not_run",
+      "verdict": "not_run",
+      "reason": "Tier 3 lacks publication-complete execution evidence."
+    }
+  },
+  "policy": {
+    "profile": "default",
+    "audience": "all",
+    "digest": "sha256:d6814408ffd434b89f6a64b1c8ec24fbedb7ad26fb4f27d01b11b27f97af245b",
+    "author_email_regex": null,
+    "severity_overrides": {
+      "SCHEMA.author_missing": "high",
+      "SCHEMA.author_format": "high",
+      "WORKFLOWS.author_format": "high",
+      "LICENSE.*": "critical"
+    },
+    "source": "/tmp/sdd-reeval-uv-cache/archive-v0/a50eCi22au_KadPd/lib/python3.13/site-packages/skillevaluator/config/profiles/default.yaml"
+  },
+  "quality_config": {
+    "source": "packaged",
+    "file": null,
+    "digest": "sha256:298ff2bf62132c8154217b7aa59fc1fd04f28cf75372f55620a2cbcd951d6549",
+    "min_score": 70
+  },
+  "evaluated_source": null,
+  "gating": {
+    "tiers": {
+      "1": {
+        "blocking": true,
+        "validators": [
+          "Schema & Repository Governance",
+          "Semantic Version Validation",
+          "Security Scan",
+          "PII Scan",
+          "License Compliance",
+          "Code Risk Analysis",
+          "Secrets Detection",
+          "Code Integrity & Hygiene",
+          "Dependency Vulnerability Audit",
+          "Unicode Smuggling Detection",
+          "QUALITY",
+          "SCRIPT_LINT"
+        ],
+        "validator_policies": [
+          {
+            "validator": "Schema & Repository Governance",
+            "blocking": true
+          },
+          {
+            "validator": "Semantic Version Validation",
+            "blocking": true
+          },
+          {
+            "validator": "Security Scan",
+            "blocking": true
+          },
+          {
+            "validator": "PII Scan",
+            "blocking": true
+          },
+          {
+            "validator": "License Compliance",
+            "blocking": true
+          },
+          {
+            "validator": "Code Risk Analysis",
+            "blocking": true
+          },
+          {
+            "validator": "Secrets Detection",
+            "blocking": true
+          },
+          {
+            "validator": "Code Integrity & Hygiene",
+            "blocking": true
+          },
+          {
+            "validator": "Dependency Vulnerability Audit",
+            "blocking": true
+          },
+          {
+            "validator": "Unicode Smuggling Detection",
+            "blocking": true
+          },
+          {
+            "validator": "QUALITY",
+            "blocking": true
+          },
+          {
+            "validator": "SCRIPT_LINT",
+            "blocking": true
+          }
+        ]
+      }
+    }
+  },
+  "workflow": {
+    "tier": 1,
+    "stages": {
+      "validation": {
+        "status": "passed"
+      },
+      "llm": {
+        "status": "skipped",
+        "reason": "LLM checks disabled by --no-llm."
+      }
+    }
+  },
+  "quality_summary": [
+    {
+      "overall_score": 94.8,
+      "grade": "A",
+      "skill_type": "hybrid",
+      "skill_name": "sdd-html-feature",
+      "dimensions": {
+        "correctness": {
+          "score": 85.0,
+          "weight": 0.35,
+          "issues_count": 2,
+          "issues": [
+            {
+              "severity": "warning",
+              "message": "Instructions don't mention 'run_script'",
+              "suggestion": "Add explicit run_script() call examples",
+              "deduction": 10
+            },
+            {
+              "severity": "warning",
+              "message": "SKILL_SPEC recommended field missing: 'version'",
+              "suggestion": "Add 'version' to frontmatter \u2014 Semantic version (e.g., \"1.0.0\")",
+              "deduction": 5
+            }
+          ]
+        },
+        "discoverability": {
+          "score": 100.0,
+          "weight": 0.25,
+          "issues_count": 0,
+          "issues": []
+        },
+        "reliability": {
+          "score": 100.0,
+          "weight": 0.25,
+          "issues_count": 0,
+          "issues": []
+        },
+        "efficiency": {
+          "score": 100.0,
+          "weight": 0.15,
+          "issues_count": 0,
+          "issues": []
+        }
+      },
+      "metrics": {
+        "total_tokens": 4786,
+        "estimated_tokens": 4786,
+        "estimate_method": "characters/4",
+        "recommended_max_tokens": 5000,
+        "frontmatter_tokens": 93,
+        "instructions_tokens": 4691,
+        "script_count": 1,
+        "has_examples": true,
+        "has_error_handling": true,
+        "has_frontmatter": true,
+        "has_instructions": false,
+        "has_scripts": true,
+        "has_lib_module": false
+      }
+    }
+  ],
+  "generated_at": "2026-11-27T09:51:45.538458+00:00"
+}

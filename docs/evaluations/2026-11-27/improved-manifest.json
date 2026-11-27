@@ -1,0 +1,46 @@
+[
+  {
+    "path": "SKILL.md",
+    "sha256": "bd72ddbd8063e1df599ebe7f2950fe84813e8a98ec0ed2cfd2811f24b3acf97f"
+  },
+  {
+    "path": "agents/code-grader.md",
+    "sha256": "bc0e95231287dcdf350b9716e4ac249b71870978b8e6784d45677e6f8540eae0"
+  },
+  {
+    "path": "agents/design-reviewer.md",
+    "sha256": "0f651d1d7600c20a8505525df8f4ff9d91052a7af62fe37f77c3c2573123bbc5"
+  },
+  {
+    "path": "agents/qa-tester.md",
+    "sha256": "c5f43f9385ba6d5d381611b3d315b42a251356a153c7118e92d61dc49adb892e"
+  },
+  {
+    "path": "references/finding-resolution.md",
+    "sha256": "7bc596c6d6248f20ac53dc1e99e349345babb6a4eb7444a4ad742ce5926afb24"
+  },
+  {
+    "path": "references/host-rendering.md",
+    "sha256": "b53b7dbdd4ae10b29a88e480ecebc20f49221112eabe93d629fcd1538d93d05d"
+  },
+  {
+    "path": "references/review-page.md",
+    "sha256": "33582b8ef3011393d82e8ca2ce999bb648b53041ec184a05f032d44e84ccc6fc"
+  },
+  {
+    "path": "references/reviewer-context.md",
+    "sha256": "c10eb3f9a62a965b6061ae1c00fb265b87132d58c913990cc599cad07616a9ec"
+  },
+  {
+    "path": "references/troubleshooting.md",
+    "sha256": "2a1d95796b17576496d0cab4241eef6610e2b32079be4a1159d5fd8f46d3e803"
+  },
+  {
+    "path": "scripts/inline_view.py",
+    "sha256": "1129b2bf5e96e9abf39c7c2c07bea2aa25eb8f601f95bcfa3d403fbd69104aeb"
+  },
+  {
+    "path": "templates/feature.html",
+    "sha256": "9c26243a0f145a885f9a95c9156cc8e7dfca5812f954d8651342f5c1cef88f95"
+  }
+]

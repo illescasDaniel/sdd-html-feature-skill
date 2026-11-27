@@ -1,0 +1,5 @@
+schema_version: "1.1"
+name: description-routing
+expected_outcome: |
+  Select the workflow for requests 1, 2 and 6. Skip requests 3 and 4.
+  Skip or ask for adoption context for request 5. Quote the exact description.

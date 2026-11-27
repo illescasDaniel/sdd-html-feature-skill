@@ -32,9 +32,9 @@ Python 3 runs the page checker and report extractor. Your agent host may not sup
 
 ## Evaluation
 
-[![NVIDIA SkillEvaluator quality A, 93.5 out of 100; Tier 1 passed; SkillSpector risk 0, no findings](assets/evaluation.svg)](docs/evaluation.md)
+[![NVIDIA SkillEvaluator quality A, 94.8 out of 100; Tier 1 passed; SkillSpector risk 7, one medium advisory](assets/evaluation.svg)](docs/evaluation.md)
 
-The historical keyless NVIDIA SkillEvaluator quality check gave **A, 93.5/100** (it gave C, 78.5 before the improvements), Tier 1 passes (it failed on missing author metadata and two security warnings), and SkillSpector reports no findings. The remaining deductions are evaluator conventions (a `run_script` mention, a top-level `version` field, description length). QA still runs freshly built code with instruction-based isolation, which `SKILL.md` lists under Limitations. This historical static score has not been re-measured for the current candidate and does not measure agent performance; the LLM rubric, Tier 2 and Tier 3 were not run, and the result was measured on an uncommitted working tree. [Evaluation details](docs/evaluation.md).
+The refactored develop candidate gives **A, 94.8/100**, up from B, 89.8 with the same SkillEvaluator 0.9.0 settings. Shorter core instructions, focused references and a concise description improve discoverability and efficiency. Tier 1 passes on the physical checkout; SkillSpector 2.13.3 reports risk **7/100**, one medium tool-scope advisory and no high or critical findings. These keyless static checks do not establish agent performance. The result identifies an uncommitted working tree on `1faeb96`; [evaluation details and raw reports](docs/evaluation.md) include its file hashes and limits.
 
 ## Tests
 
