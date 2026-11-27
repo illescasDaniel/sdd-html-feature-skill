@@ -4,7 +4,7 @@ description: 'Use visual Spec-Driven Development when requested or adopted: feat
 license: MIT
 metadata:
   author: Daniel Illescas Romero <illescas.daniel@protonmail.com>
-  version: "1.0.0"
+  version: "1.1.0"
   tags: [spec-driven-development, html, design-review, approval-gates, testing, workflow]
 ---
 
