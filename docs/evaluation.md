@@ -1,5 +1,7 @@
 # Evaluation
 
+The skill on `develop` is now named `sdd-html-feature-beta`. The reports below retain their original `sdd-html-feature` name, paths and content hashes from before the namespace-only rename; they are historical evidence, not fresh scores for the renamed artifact.
+
 ## Instruction refactor and re-scan (27 November 2026)
 
 The current **uncommitted develop candidate on top of `1faeb96`** scores **A, 94.8/100**, compared with B, 89.8 before this refactor. Both were scanned with the same pinned SkillEvaluator 0.9.0 / SkillSpector 2.13.3 settings described below, with LLM checks disabled and no suppression baseline. The final scan ran on the physical checkout after moving its ignored bytecode cache to trash.

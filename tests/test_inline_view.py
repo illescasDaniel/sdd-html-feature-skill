@@ -9,7 +9,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILL = ROOT / 'skills' / 'sdd-html-feature'
+SKILL = ROOT / 'skills' / 'sdd-html-feature-beta'
 SCRIPT = SKILL / 'scripts' / 'inline_view.py'
 TEMPLATE = SKILL / 'templates' / 'feature.html'
 GOLDEN = Path(__file__).resolve().parent / 'golden'

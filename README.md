@@ -1,6 +1,8 @@
-<p align="center"><img src="assets/icon.svg" alt="sdd-html-feature icon" width="96"></p>
+<p align="center"><img src="assets/icon.svg" alt="sdd-html-feature-beta icon" width="96"></p>
 
-# sdd-html-feature
+# sdd-html-feature-beta
+
+This `develop` branch provides the beta skill alongside the stable `sdd-html-feature`; install it as `sdd-html-feature-beta` without replacing the stable install.
 
 Visual spec-driven development in a single, self-contained HTML page per feature. Review the design, specification and architecture through separate approval gates, challenge the proposal with a fresh reviewer before architecture approval, then build, test and independently verify the result.
 
@@ -21,10 +23,10 @@ The page is saved as `sdd/<feature>.html`, works offline and retains readable co
 ## Quick start
 
 ```bash
-npx skills add illescasDaniel/sdd-html-feature-skill
+npx skills add https://github.com/illescasDaniel/sdd-html-feature-skill/tree/develop/skills/sdd-html-feature-beta
 ```
 
-Ask your agent to use `sdd-html-feature` for a feature. Review the HTML page and approve each gate in chat. See the [manual installation instructions](docs/guide.md#use).
+Ask your agent to use `sdd-html-feature-beta` for a feature. Review the HTML page and approve each gate in chat. See the [manual installation instructions](docs/guide.md#use).
 
 ## Requirements and limits
 

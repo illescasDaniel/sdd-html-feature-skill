@@ -1,5 +1,5 @@
 ---
-name: sdd-html-feature
+name: sdd-html-feature-beta
 description: 'Use visual Spec-Driven Development when requested or adopted: feature approval gates in HTML, build, QA and grading. Not for tiny fixes.'
 license: MIT
 metadata:

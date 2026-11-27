@@ -8,7 +8,7 @@ One file per feature, `sdd/<feature>.html`, is the single source of truth, with 
 
 ![The Verify tab of the same template: verdict, scorecard and findings](template-verify.png)
 
-*Screenshots of `skills/sdd-html-feature/templates/feature.html` in light mode (the page also follows the system dark theme).*
+*Screenshots of `skills/sdd-html-feature-beta/templates/feature.html` in light mode (the page also follows the system dark theme).*
 
 | Tab | Reviewable result |
 |---|---|
@@ -31,9 +31,9 @@ Compared with [`sdd-feature`](https://github.com/illescasDaniel/sdd-feature-skil
 
 ## Use
 
-Ask your agent to use the skill for a feature (`/sdd-html-feature` in Claude Code, `$sdd-html-feature` in Codex). Review the saved HTML locally; an inline preview is drawn when the host supports it (the skill lists the exact method per host: the Claude desktop app, T3 Code, Codex, and a Markdown fallback). Do not assume every agent host can render interactive HTML inside chat.
+Ask your agent to use the skill for a feature (`/sdd-html-feature-beta` in Claude Code, `$sdd-html-feature-beta` in Codex). Review the saved HTML locally; an inline preview is drawn when the host supports it (the skill lists the exact method per host: the Claude desktop app, T3 Code, Codex, and a Markdown fallback). Do not assume every agent host can render interactive HTML inside chat.
 
-To install manually, copy `skills/sdd-html-feature/` into your agent's skills directory: `~/.claude/skills/` (Claude Code) or `~/.agents/skills/` (Codex), or a project's `.claude/skills/` / `.agents/skills/`. The agent and script paths above are relative to that skill folder. Restart the agent session afterwards.
+To install manually, copy `skills/sdd-html-feature-beta/` into your agent's skills directory: `~/.claude/skills/` (Claude Code) or `~/.agents/skills/` (Codex), or a project's `.claude/skills/` / `.agents/skills/`. The agent and script paths above are relative to that skill folder. Keep the installed folder named `sdd-html-feature-beta` in each location. OpenCode uses `~/.config/opencode/skills/`. The stable `sdd-html-feature` folder is independent and must not be overwritten. Reload the agent session if the new skill is not discovered.
 
 ## Contributing
 

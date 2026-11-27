@@ -1,11 +1,11 @@
 ---
-tags: [sdd-html-feature, behavioral]
+tags: [sdd-html-feature-beta, behavioral]
 max_turns: 5
 timeout_seconds: 120
 allowed_tools: [Read]
 ---
 
-Read only the YAML name and description in the installed sdd-html-feature skill, not its body. Decide select, skip or ask-for-context for each incoming request and explain each choice. Do not implement anything.
+Read only the YAML name and description in the installed sdd-html-feature-beta skill, not its body. Decide select, skip or ask-for-context for each incoming request and explain each choice. Do not implement anything.
 
 1. Use visual spec-driven development to add retry behavior to this background job.
 2. This project has adopted visual SDD. Add a CLI subcommand to export JSON.
