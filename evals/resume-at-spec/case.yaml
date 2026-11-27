@@ -1,0 +1,8 @@
+schema_version: "1.1"
+name: resume-at-spec
+expected_outcome: |
+  The run resumes at Spec, preserving the recorded Design approval and not requesting Design approval again.
+  The run stops at spec approval and does not implement the feature.
+  The recorded no design review choice is preserved without spawning a proposal reviewer.
+context:
+  scaffold_script: place-files.sh

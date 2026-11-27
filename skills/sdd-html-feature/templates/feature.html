@@ -95,6 +95,7 @@ table{border-collapse:collapse;width:100%;font-size:12.5px}td,th{padding:4px 6px
 <li><strong>Outcome:</strong> an authorized owner downloads their report as CSV; report data never changes.</li>
 <li><strong>Failure paths:</strong> F1 returns 403 before any row is read; F2 returns 422 <code>report_too_large</code>. Neither returns data.</li>
 <li><strong>Decisions to settle:</strong> row cap and time budget (measured, not guessed); CSV formula handling for untrusted cells; rollout and rollback.</li>
+<li><strong>Alternatives and reuse:</strong> compare a simple download with manual export; check existing access and CSV helpers before adding components.</li>
 <li><strong>Out of scope:</strong> scheduled exports, email delivery, background jobs.</li>
 </ul>
 <details class="questions" open><summary>Open questions (1)</summary><ol><li><strong>Q1.</strong> Is 50,000 rows an acceptable first cap? <em>Recommend: measure first.</em></li></ol></details>
@@ -142,6 +143,10 @@ table{border-collapse:collapse;width:100%;font-size:12.5px}td,th{padding:4px 6px
 <tr><th scope="row">Compatibility and rollout</th><td>Add an endpoint; storage unchanged.</td><td>Confirm clients and rollback.</td></tr>
 </tbody></table></div></section>
 
+<section id="d-alternatives" aria-labelledby="d-alternatives-t" style="--sc:var(--c-blue)"><h2 id="d-alternatives-t">Alternatives, reuse and current system</h2>
+<p class="tpl">Compare the proposed export with the simplest viable alternative, including doing nothing when meaningful. State the concrete trade-off; do not invent options to fill a quota. Search for existing access checks and CSV helpers, recording source paths/symbols and search scope or the limitation.</p>
+<p class="tpl">Separate source-backed current report behavior from the proposed endpoint. Cite material current-state claims and mark unknowns. The example diagram's existing components must be checked against the actual project.</p></section>
+
 <section id="d-scope" aria-labelledby="d-scope-t" style="--sc:var(--c-teal)"><h2 id="d-scope-t">Scope and open questions</h2>
 <p><strong>In scope:</strong> one report export and bounded failures. <strong>Out of scope:</strong> scheduled exports, email delivery, background jobs.</p>
 <ol><li><strong>Q1.</strong> Is 50,000 rows an acceptable first cap? <em>Recommend: measure first.</em></li></ol>
@@ -185,6 +190,7 @@ table{border-collapse:collapse;width:100%;font-size:12.5px}td,th{padding:4px 6px
 <li><strong>Assessment:</strong> which interfaces, types and ports are new, and which existing boundaries are reused. If no new interface is needed, say so and why; do not invent types.</li>
 <li><strong>Test approach and order:</strong> tests first, then implementation, in small chunks.</li>
 <li><strong>Differs from design:</strong> list every difference, or “nothing”.</li>
+<li class="tpl"><strong>Proposal review (advisory):</strong> result, unresolved R# findings, context limitations; initial review and at most one targeted re-check (separate from post-build verification). Record skipped, unavailable or incomplete runs honestly.</li>
 </ul>
 <p class="note gate"><strong>Next gate:</strong> reply “architecture approved”, or describe the changes you want. After the build, QA and an independent grader run automatically (up to 3 subagent runs per approved revision); reply <code>no QA</code> or <code>no grade</code> to skip either.</p></section>
 <h2 class="rep">Detailed report</h2>
@@ -198,7 +204,14 @@ table{border-collapse:collapse;width:100%;font-size:12.5px}td,th{padding:4px 6px
 <g transform="translate(14 130)"><rect class="n new" x="0" y="-10" width="12" height="12" rx="3"/><text class="t" x="18" y="0">new</text><rect class="n chg" x="70" y="-10" width="12" height="12" rx="3"/><text class="t" x="88" y="0">changed</text><rect class="n ex" x="160" y="-10" width="12" height="12" rx="3"/><text class="t" x="178" y="0">existing, unchanged</text><rect class="n def" x="320" y="-10" width="12" height="12" rx="3"/><text class="t" x="338" y="0">deferred or outside the repo</text></g></svg></div>
 <p>Text equivalent: ExportEndpoint (new) calls AccessCheck and ReportStorage (both existing, unchanged).</p></section>
 <section id="a-plan" aria-labelledby="a-plan-t" style="--sc:var(--c-grn)"><h2 id="a-plan-t">Interfaces and phased plan</h2>
-<p class="tpl">Show actual interface or signature diffs, ownership, trust boundaries, migration order and rollback, and every new file the plan implies (entry points such as <code>__main__</code>, config, fixtures). List phases with the evidence each produces.</p></section>
+<p class="tpl">Show actual interface or signature diffs, ownership, trust boundaries, migration order and rollback. List repository-relative paths as Create, Modify, Delete or Reuse (including entry points such as <code>__main__</code>, config and fixtures); verify claims about existing APIs and behavior against source. Resolve choices affecting behavior or architecture; leave routine implementation choices open. List phases with the evidence each produces.</p></section>
+<section id="a-review" aria-labelledby="a-review-t" style="--sc:var(--c-vio)"><h2 id="a-review-t">Independent proposal review</h2>
+<p class="tpl"><strong>What this proposes:</strong> original reviewer paraphrase from the page alone.</p>
+<p class="tpl"><strong>How the existing system works, per the page:</strong> original reviewer paraphrase before source checks.</p>
+<p class="tpl"><strong>Review result:</strong> reviewer sentence verbatim; advisory, never approval. Record role, model, host, revision/cycle, dispatch settings, selected input paths, completion and available read evidence. Record attempts used out of two, source/search coverage and limitations.</p>
+<div class="scroll" tabindex="0" role="region" aria-label="Scrollable proposal findings"><table class="cards"><caption>Proposal findings and author responses</caption><thead><tr><th scope="col">ID / severity / owning tab</th><th scope="col">Original finding and evidence</th><th scope="col">Author disposition and reason</th><th scope="col">Resolution / residual consequence</th></tr></thead><tbody>
+<tr class="tpl"><th scope="row">R1 / high / Spec</th><td data-label="Original finding and evidence">Preserve the original finding, page section and source evidence.</td><td data-label="Author disposition and reason">fix | contest (checkable evidence) | escalate | decline</td><td data-label="Resolution / residual consequence">open | fixed | contested | accepted by user; no author-assigned PASS</td></tr>
+</tbody></table></div></section>
 <section id="a-checks" aria-labelledby="a-checks-t" style="--sc:var(--c-blue)"><h2 id="a-checks-t">Checks run on this page</h2><p class="tpl">Mechanical checks (<code>inline_view.py --check</code>, link and diagram checks), browser checks that did run, and limitations: what was not checked and why. Chat never carries content that is not here.</p></section>
 </div>
 
@@ -228,18 +241,18 @@ table{border-collapse:collapse;width:100%;font-size:12.5px}td,th{padding:4px 6px
 <tr class="tpl"><th scope="row">Grade criterion 1…7</th><td data-label="Result">PASS | PARTIAL | FAIL</td><td data-label="Evidence">path:line</td></tr>
 </tbody></table></div>
 <div class="scroll" tabindex="0" role="region" aria-label="Scrollable findings table"><table class="cards"><caption>Findings (Q# from QA, G# from the grader)</caption><thead><tr><th scope="col">ID</th><th scope="col">Label</th><th scope="col">Severity</th><th scope="col">Status</th></tr></thead><tbody>
-<tr class="tpl"><th scope="row">Q1 / G1</th><td data-label="Label">implementation | requirement</td><td data-label="Severity">high | medium | low</td><td data-label="Status">fixed | declined (reason) | open</td></tr>
+<tr class="tpl"><th scope="row">Q1 / G1</th><td data-label="Label">implementation | requirement</td><td data-label="Severity">high | medium | low</td><td data-label="Status">fixed | contested (evidence) | escalated | declined (reason) | open</td></tr>
 </tbody></table></div>
 <ul>
 <li class="tpl"><strong>Fixed after grading, not re-graded:</strong> each change, re-checked with the quality gate only; or “none”.</li>
 <li class="tpl"><strong>Not verified:</strong> what no one actually ran or checked.</li>
-<li class="tpl"><strong>Budget used:</strong> spawns, fix rounds, model of each agent; delegation unavailable is stated here.</li></ul>
+<li class="tpl"><strong>Budget used:</strong> post-build spawns (at most 3), fix rounds (at most 2), model of each agent and context/completion limitations; proposal-review attempts are recorded separately in Architecture.</li></ul>
 <p class="note gate"><strong>Handoff:</strong> nothing is committed or published. Reply with what you want next (for example “commit”), or describe the changes you want.</p></section>
 <h2 class="rep">Detailed report</h2>
 <section id="v-qa" aria-labelledby="v-qa-t" style="--sc:var(--c-amb)"><h2 id="v-qa-t">QA scenario runs</h2>
 <p class="note skip-inline">A QA tester <em>runs</em> the built feature in an isolated environment and reports what happened. With no runtime behaviour (docs or guidance only), the QA row is n/a with the reason, or a behaviour check labelled an observation.</p>
 <div class="scroll" tabindex="0" role="region" aria-label="Scrollable QA table"><table class="cards"><caption>Each scenario run for real</caption><thead><tr><th scope="col">Scenario</th><th scope="col">Steps</th><th scope="col">Expected</th><th scope="col">Observed</th><th scope="col">Result</th><th scope="col">Evidence</th></tr></thead><tbody><tr class="tpl"><th scope="row">S2</th><td data-label="Steps">Call the endpoint as an unauthorized user</td><td data-label="Expected">403, no rows read</td><td data-label="Observed">(fill in)</td><td data-label="Result">matches | differs | not run | extra</td><td data-label="Evidence">(log or screenshot path)</td></tr></tbody></table></div></section>
-<section id="v-grade" aria-labelledby="v-grade-t" style="--sc:var(--c-blue)"><h2 id="v-grade-t">Criteria, scenario map and findings</h2><p class="tpl">Grader criteria table with scores and evidence, the scenario map, and each finding with its resolution, pasted from the grader’s report.</p></section>
+<section id="v-grade" aria-labelledby="v-grade-t" style="--sc:var(--c-blue)"><h2 id="v-grade-t">Criteria, scenario map and findings</h2><p class="tpl">Grader criteria table with scores and evidence, the scenario map, and original findings pasted from the grader’s report. Add author responses separately: fix, contest with checkable evidence, escalate or decline. Preserve reviewer severity, classification and verdict; unresolved contests cannot establish PASS.</p></section>
 <section id="v-checks" aria-labelledby="v-checks-t" style="--sc:var(--c-blue)"><h2 id="v-checks-t">Checks run on this page</h2><p class="tpl">Mechanical checks (<code>inline_view.py --check</code>, link and diagram checks), browser checks that did run, and limitations: what was not checked and why. Chat never carries content that is not here.</p></section>
 </div>
 
@@ -248,7 +261,7 @@ table{border-collapse:collapse;width:100%;font-size:12.5px}td,th{padding:4px 6px
 <section id="appr" aria-labelledby="appr-t" style="--sc:var(--c-grn)"><h2 id="appr-t">Approvals</h2>
 <p class="note">Record only approvals actually received in chat, with the date, the tab content approved (hash or short description) and the user’s words. A page control never approves a gate. Later edits to status labels or traceability are not re-approvals; a change to behaviour, scope or contracts reopens the gate that owns it. Hashes identify what was approved, not what the page shows today.</p>
 <div class="scroll" tabindex="0" role="region" aria-label="Scrollable approvals table"><table><caption>Gate approvals</caption><thead><tr><th scope="col">Gate</th><th scope="col">Date</th><th scope="col">Approved artifact</th><th scope="col">Approval in chat</th></tr></thead><tbody>
-<tr><th scope="row">Design</th><td>pending</td><td></td><td></td></tr><tr><th scope="row">Spec</th><td>pending</td><td></td><td></td></tr><tr><th scope="row">Architecture</th><td>pending</td><td></td><td></td></tr><tr><th scope="row">Automatic verification</th><td>pending</td><td>QA and grade run after the build unless the user replied <code>no QA</code> or <code>no grade</code></td><td></td></tr>
+<tr><th scope="row">Design</th><td>pending</td><td></td><td></td></tr><tr><th scope="row">Spec</th><td>pending</td><td></td><td></td></tr><tr><th scope="row">Architecture</th><td>pending</td><td></td><td></td></tr><tr><th scope="row">Proposal review choice and budget</th><td>not recorded</td><td>Initial review and at most one targeted re-check before architecture approval; cycle/revision and attempts recorded separately from post-build verification</td><td>Workflow choice only; record any <code>no design review</code> request here, never as gate approval</td></tr><tr><th scope="row">Automatic verification</th><td>pending</td><td>QA and grade run after the build unless the user replied <code>no QA</code> or <code>no grade</code></td><td></td></tr>
 </tbody></table></div></section>
 </div>
 </main>

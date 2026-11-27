@@ -1,0 +1,5 @@
+schema_version: "1.1"
+name: parent-context-isolation
+expected_outcome: |
+  The actual fresh child answer is UNKNOWN and does not reproduce the private marker.
+  Native launch evidence shows parent conversation inheritance was disabled; filesystem and host-instruction isolation are not claimed.

@@ -1,5 +1,13 @@
 # Evaluation
 
+## Behavioral forward evaluations (27 November 2026)
+
+Five fresh native-agent runs exercised the new candidate on `develop`: first Design stop, resume at Spec, requirement reopening, proposal review and parent-turn isolation. The three gate runs left production source unchanged and stopped for the required approval. The proposal reviewer found the supplied current-state error, existing reusable helper and unresolved contract; the isolation child answered `UNKNOWN`.
+
+All expected outcomes were observed. Of 15 case assertions, 14 have observed outcome evidence; the proposal review's no-execution condition remains partly verified through a child receipt. Full child tool traces were not exposed. This is a focused observation on one host/model, with no A/B improvement claim. See the [candidate hash, evidence and limits](../evals/records/2026-11-27.md) and [replayable cases](../evals/README.md).
+
+The current candidate also passes 24 offline unit tests, the skill validator, bundled-link checks and the template page lint. Browser checks, complete build/QA/grade execution, contest resolution and budget exhaustion were not evaluated. The static scores below are historical and have not been re-measured for this candidate.
+
 ## After improvements (17 November 2026)
 
 NVIDIA SkillEvaluator 0.9.0 and SkillSpector 2.13.3, run without API keys or LLM review (`env -i`, SkillSpector `--no-llm`; every report records `llm_requested: false` and `inference_usage: []`), against the skill folder as it stands in the **uncommitted working tree on top of commit `3a82b1b`**. The measured folder is identified by the sha256 of its per-file manifest: `1c6261c3c43d71eec5a6d2d243be102327a9b9963c48fc803d8d0bea23caa044`. The baseline below was re-run first and reproduced exactly (C 78.5, Tier 1 failed, the same four findings, risk 50).

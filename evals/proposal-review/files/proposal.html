@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Greeting prefix</title>
+<style data-inline media="not all">body{font-family:sans-serif}</style>
+</head>
+<body>
+<header>
+<span class="badge">Spec awaiting approval</span>
+</header>
+<nav>
+<button role="tab" data-p="design">Design <span class="st">approved</span>
+</button>
+<button role="tab" data-p="spec">Spec <span class="st">not started</span>
+</button>
+<button role="tab" data-p="arch">Architecture <span class="st">not started</span>
+</button>
+<button role="tab" data-p="build">Build <span class="st">not started</span>
+</button>
+<button role="tab" data-p="verify">Verify <span class="st">not started</span>
+</button>
+<button role="tab" data-p="appr">Approvals <span class="st">not started</span>
+</button>
+</nav>
+<main>
+<div role="tabpanel" id="p-design" aria-labelledby="t-design" class="tabpanel">
+<section>
+<h2>At a glance</h2>
+<div class="hero">
+<p>CLI input → prefix validation → greeting output. Failure F1 exits 2 without output.</p>
+<p>Text equivalent: validate the prefix before printing.</p>
+</div>
+<p>Outcome: add --prefix. Existing greet.py validates prefix length and rejects over 80 characters. Propose a new format_prefix helper because no prefix helper exists. Doing nothing keeps the default greeting but does not support customization.</p>
+<p class="note gate">Design approved 2026-11-26 (see Approvals).</p>
+</section>
+<h2 class="rep">Detailed report</h2>
+<p>Outcome: add --prefix. Existing greet.py validates prefix length and rejects over 80 characters. Propose a new format_prefix helper because no prefix helper exists. Doing nothing keeps the default greeting but does not support customization.</p>
+<h2>Checks run on this page</h2>
+<p>Fixture; no browser checks run.</p>
+</div>
+<div role="tabpanel" id="p-spec" aria-labelledby="t-spec" class="tabpanel">
+<section>
+<h2>At a glance</h2>
+<p>S1: output is prefix then hello. Failure F1 rejects invalid prefix. Whether invalid includes whitespace-only values is undecided; implementer should choose.</p>
+<p class="note gate">Next gate: reply spec approved.</p>
+</section>
+<h2 class="rep">Detailed report</h2>
+<p>S1: output is prefix then hello. Failure F1 rejects invalid prefix. Whether invalid includes whitespace-only values is undecided; implementer should choose.</p>
+<h2>Checks run on this page</h2>
+<p>Fixture; no browser checks run.</p>
+</div>
+<div role="tabpanel" id="p-arch" aria-labelledby="t-arch" class="tabpanel">
+<section>
+<h2>At a glance</h2>
+<p>Modify greet.py; Create cli_options.py (proposed, does not exist yet); Create test_greet.py. Add format_prefix in cli_options.py.</p>
+<p class="note gate">Next gate: reply architecture approved.</p>
+</section>
+<h2 class="rep">Detailed report</h2>
+<p>Modify greet.py; Create cli_options.py (proposed, does not exist yet); Create test_greet.py. Add format_prefix in cli_options.py.</p>
+<h2>Checks run on this page</h2>
+<p>Fixture; no browser checks run.</p>
+</div>
+<div role="tabpanel" id="p-build" aria-labelledby="t-build" class="tabpanel">
+<section>
+<h2>At a glance</h2>
+<p>No implementation changes yet.</p>
+<p class="note gate">Next gate: reply build approved.</p>
+</section>
+<h2 class="rep">Detailed report</h2>
+<p>No implementation changes yet.</p>
+<h2>Checks run on this page</h2>
+<p>Fixture; no browser checks run.</p>
+</div>
+<div role="tabpanel" id="p-verify" aria-labelledby="t-verify" class="tabpanel">
+<section>
+<h2>At a glance</h2>
+<p>Not started.</p>
+<p class="note gate">Next gate: reply verify approved.</p>
+</section>
+<h2 class="rep">Detailed report</h2>
+<p>Not started.</p>
+<h2>Checks run on this page</h2>
+<p>Fixture; no browser checks run.</p>
+</div>
+<div role="tabpanel" id="p-appr" class="tabpanel">
+<h2>Approvals</h2>
+<table>
+<tr>
+<th>Design</th>
+<td>2026-11-26</td>
+<td>revision 1</td>
+<td>design approved</td>
+</tr>
+<tr>
+<th>Proposal review choice</th>
+<td>2026-11-26</td>
+<td>cycle 1, 0 attempts used</td>
+<td>no design review</td>
+</tr>
+</table>
+</div>
+</main>
+</body>
+</html>

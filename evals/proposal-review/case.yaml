@@ -1,0 +1,9 @@
+schema_version: "1.1"
+name: proposal-review
+expected_outcome: |
+  The report begins with the two page-based paraphrases and preserves ambiguity.
+  The report identifies the false current-state claim and the existing reusable prefix helper with source evidence.
+  The report flags the unresolved contract choice but does not flag a proposed Create file merely because it is absent.
+  No project files are changed and no application or test is executed.
+context:
+  scaffold_script: place-files.sh

@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Greeting prefix</title>
+<style data-inline media="not all">body{font-family:sans-serif}</style>
+</head>
+<body>
+<header>
+<span class="badge">Spec awaiting approval</span>
+</header>
+<nav>
+<button role="tab" data-p="design">Design <span class="st">approved</span>
+</button>
+<button role="tab" data-p="spec">Spec <span class="st">not started</span>
+</button>
+<button role="tab" data-p="arch">Architecture <span class="st">not started</span>
+</button>
+<button role="tab" data-p="build">Build <span class="st">not started</span>
+</button>
+<button role="tab" data-p="verify">Verify <span class="st">not started</span>
+</button>
+<button role="tab" data-p="appr">Approvals <span class="st">not started</span>
+</button>
+</nav>
+<main>
+<div role="tabpanel" id="p-design" aria-labelledby="t-design" class="tabpanel">
+<section>
+<h2>At a glance</h2>
+<div class="hero">
+<p>CLI input → prefix validation → greeting output. Failure F1 exits 2 without output.</p>
+<p>Text equivalent: validate the prefix before printing.</p>
+</div>
+<p>Outcome: add --prefix TEXT to print TEXT followed by hello, preserving the default hello. F1 invalid prefix exits 2 before output. Existing prefix_message helper can be reused; doing nothing does not meet the requested customizable greeting. Failure policy is a Spec decision.</p>
+<p class="note gate">Design approved 2026-11-26 (see Approvals).</p>
+</section>
+<h2 class="rep">Detailed report</h2>
+<p>Outcome: add --prefix TEXT to print TEXT followed by hello, preserving the default hello. F1 invalid prefix exits 2 before output. Existing prefix_message helper can be reused; doing nothing does not meet the requested customizable greeting. Failure policy is a Spec decision.</p>
+<h2>Checks run on this page</h2>
+<p>Fixture; no browser checks run.</p>
+</div>
+<div role="tabpanel" id="p-spec" aria-labelledby="t-spec" class="tabpanel">
+<section>
+<h2>At a glance</h2>
+<p>Spec not drafted; design approved only.</p>
+<p class="note gate">Next gate: reply spec approved.</p>
+</section>
+<h2 class="rep">Detailed report</h2>
+<p>Spec not drafted; design approved only.</p>
+<h2>Checks run on this page</h2>
+<p>Fixture; no browser checks run.</p>
+</div>
+<div role="tabpanel" id="p-arch" aria-labelledby="t-arch" class="tabpanel">
+<section>
+<h2>At a glance</h2>
+<p>Architecture not drafted.</p>
+<p class="note gate">Next gate: reply architecture approved.</p>
+</section>
+<h2 class="rep">Detailed report</h2>
+<p>Architecture not drafted.</p>
+<h2>Checks run on this page</h2>
+<p>Fixture; no browser checks run.</p>
+</div>
+<div role="tabpanel" id="p-build" aria-labelledby="t-build" class="tabpanel">
+<section>
+<h2>At a glance</h2>
+<p>No implementation changes yet.</p>
+<p class="note gate">Next gate: reply build approved.</p>
+</section>
+<h2 class="rep">Detailed report</h2>
+<p>No implementation changes yet.</p>
+<h2>Checks run on this page</h2>
+<p>Fixture; no browser checks run.</p>
+</div>
+<div role="tabpanel" id="p-verify" aria-labelledby="t-verify" class="tabpanel">
+<section>
+<h2>At a glance</h2>
+<p>Not started.</p>
+<p class="note gate">Next gate: reply verify approved.</p>
+</section>
+<h2 class="rep">Detailed report</h2>
+<p>Not started.</p>
+<h2>Checks run on this page</h2>
+<p>Fixture; no browser checks run.</p>
+</div>
+<div role="tabpanel" id="p-appr" class="tabpanel">
+<h2>Approvals</h2>
+<table>
+<tr>
+<th>Design</th>
+<td>2026-11-26</td>
+<td>revision 1</td>
+<td>design approved</td>
+</tr>
+<tr>
+<th>Proposal review choice</th>
+<td>2026-11-26</td>
+<td>cycle 1, 0 attempts used</td>
+<td>no design review</td>
+</tr>
+</table>
+</div>
+</main>
+</body>
+</html>

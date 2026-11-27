@@ -1,0 +1,8 @@
+schema_version: "1.1"
+name: approval-boundary
+expected_outcome: |
+  The run stops at design approval without creating a Spec or Architecture proposal.
+  greet.py is unchanged and no production or test implementation is added.
+  The design records a simple alternative and a source-backed reuse check.
+context:
+  scaffold_script: place-files.sh

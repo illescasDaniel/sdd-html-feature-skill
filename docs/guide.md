@@ -1,6 +1,6 @@
 # SDD HTML Feature
 
-A visual Spec-Driven Development skill: review a feature through a self-contained interactive HTML page before committing its behavior to a spec and its interfaces to code. It retains separate design, spec and architecture approvals, followed by tests, implementation and independent review.
+A visual Spec-Driven Development skill: review a feature through a self-contained interactive HTML page before committing its behavior to a spec and its interfaces to code. It retains separate design, spec and architecture approvals, with one bounded independent proposal review before architecture approval, followed by tests, implementation, QA and grading.
 
 One file per feature, `sdd/<feature>.html`, is the single source of truth, with a tab per phase. Each tab shows **At a glance** first, then the **Detailed report** (the Spec tab holds the full Given/When/Then; there is no separate SPEC.md or APPROVALS.md). The Design glance leads with a **hero visual** (a compact mock of how a frontend will look, or the main system diagram of a backend) and ends with the open questions as a collapsible list, so the reviewer sees what changes and what to decide without opening the report. When the inline chat copy would be over 12 KB, only the glance is inlined with a pointer to the page for the rest. The page works offline, uses coloured inline SVG diagrams plus text labels, follows the system light/dark theme, and keeps everything readable without JavaScript and in print. Interactive walkthroughs are simulations. Approval always happens in chat and is recorded in the Approvals tab. It suits backend, CLI, library, jobs and frontend features.
 
@@ -12,14 +12,20 @@ One file per feature, `sdd/<feature>.html`, is the single source of truth, with 
 
 | Tab | Reviewable result |
 |---|---|
-| Design | Flow diagram with failure frames, state walkthroughs, proposed decisions, open questions |
+| Design | Flow diagram, failures, walkthroughs, alternatives/reuse, source-backed current behavior, decisions and questions |
 | Spec | Contracts, stable scenarios with full Given/When/Then, traceability |
-| Architecture | Dependency diagram, interface diffs, phased plan |
+| Architecture | Dependency diagram, interface diffs, Create/Modify/Delete/Reuse plan, advisory review and R# findings |
 | Build | Tests first, implementation, project quality gate, what is not verified |
 | Verify | One combined report: grader verdict and QA result (pasted verbatim), scorecard, findings `Q#`/`G#` with resolution, not verified, handoff; the detail holds the QA scenario runs and the grader's criteria |
 | Approvals | Gate approvals actually received in chat |
 
-Agents: `agents/qa-tester.md` (runs the thing, never edits source) and `agents/code-grader.md` (reads and judges, may run only the documented quality gate). Order: implement, QA, fix, grade, fix. Both run automatically after the build (the user is told once, at the architecture gate, and can opt out with `no QA` or `no grade`); one shared budget of two fix rounds and at most three subagent runs. Every tab exists from the start and ends its glance with one `.gate` line. `scripts/inline_view.py PAGE TAB` extracts the chat report from the page (HTML, or `--format md` when the host cannot render HTML) and `--check PAGE` lints the page structure (it errors on a tab button without a status chip and on any resource-loading tag or CSS that fetches from the network, such as `img`, `video`, `object`, `srcset` or `url()`; plain `<a href>` links are allowed); chat never carries text that is not in the page.
+Before architecture approval, `agents/design-reviewer.md` first paraphrases the proposal from the page alone, then checks it against source for risks, simplicity, reuse, false current-state claims and unresolved material decisions. Its report stays in Architecture; material design/spec corrections return to the existing owning gate. The limit is one initial review and one targeted re-check (10 minutes each by default), separate from post-build verification. The agent announces this at the start; reply `no design review` to skip it. Resuming or editing wording does not reset that budget. This adds no approval gate.
+
+All three roles receive fresh conversation context and artifact paths rather than the author's conversation or private reasoning. The page records dispatch settings, completion, read evidence when exposed by the host, and limitations. Fresh conversation context does not establish sandboxing or exclusion of host instruction files. When fresh context is unavailable, independent review is unavailable; any main-agent check is labelled "not independent".
+
+Original findings retain their severity, classification and wording. The author separately proposes a fix, contests with checkable evidence, escalates missing context or declines with a reason. Material unresolved findings remain visible for the user's decision; a contest never creates a PASS. Routine implementation choices remain flexible once behavior and architecture are settled.
+
+Post-build agents: `agents/qa-tester.md` (runs the thing, never edits source) and `agents/code-grader.md` (reads and judges, may run only the documented quality gate). Order: implement, QA, fix, grade, fix. Both run automatically after the build (the user is told once, at the architecture gate, and can opt out with `no QA` or `no grade`); one shared post-build budget of two fix rounds and at most three subagent runs, separate from proposal review. Every tab exists from the start and ends its glance with one `.gate` line. `scripts/inline_view.py PAGE TAB` extracts the chat report from the page (HTML, or `--format md` when the host cannot render HTML) and `--check PAGE` lints the page structure (it errors on a tab button without a status chip and on any resource-loading tag or CSS that fetches from the network, such as `img`, `video`, `object`, `srcset` or `url()`; plain `<a href>` links are allowed); chat never carries text that is not in the page.
 
 Compared with [`sdd-feature`](https://github.com/illescasDaniel/sdd-feature-skill) (the Mermaid-based predecessor), this skill makes the offline HTML review the visual entry point for UI, system and CLI work. It removes CDN rendering dependencies, brings proposed decisions into design review, records revision-specific approval, and checks contracts at the layer where their behavior occurs. Existing project-mandated Markdown designs remain authoritative where required.
 
@@ -31,7 +37,9 @@ To install manually, copy `skills/sdd-html-feature/` into your agent's skills di
 
 ## Contributing
 
-Keep approval boundaries explicit and examples offline and accessible. Validate frontmatter, exercise the HTML selector with keyboard and a narrow viewport, inspect print output, and test the skill on a realistic feature request. Report checks you could not run.
+Keep approval boundaries explicit and examples offline and accessible. Validate frontmatter, exercise the HTML selector with keyboard and a narrow viewport, inspect print output, and test the skill on a realistic feature request. Report checks you could not run. Use the repository-root [behavioral cases](../evals/README.md) for gate, resume, requirement-change and reviewer checks; keep native evidence and any host limitations separate from static test results.
+
+The bounded review and fresh-context checks were informed by [Elephant-Goldfish Model](https://github.com/google/elephant-goldfish-model), especially its comprehension, simplicity, codebase and readiness reviewers. This skill keeps its own three gates and single-page reporting.
 
 ## License
 

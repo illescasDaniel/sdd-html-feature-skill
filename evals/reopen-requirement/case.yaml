@@ -1,0 +1,8 @@
+schema_version: "1.1"
+name: reopen-requirement
+expected_outcome: |
+  The requirement finding is preserved with its severity and requirement label.
+  The run proposes a Spec correction and stops dependent implementation for user approval.
+  greet.py stays unchanged and the existing approved Spec is not silently replaced as approved.
+context:
+  scaffold_script: place-files.sh
